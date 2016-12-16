@@ -1,0 +1,20 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/btnBasicIntegration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="clickBasicIntegration"
+        android:text="@string/btn_basic_integration" />
+
+    <Button
+        android:id="@+id/btnAdvancedIntegration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnBasicIntegration"
+        android:onClick="clickAdvancedIntegration"
+        android:text="@string/btn_advanced_integration" />
+</RelativeLayout>
