@@ -26,7 +26,7 @@ repositories {
 }
 
 dependencies {
-    compile 'co.zowdow:zowdow-sdk:2.0.98@aar'
+    compile 'co.zowdow:zowdow-sdk:2.0.99@aar'
     compile 'com.android.support:appcompat-v7:25.0.1'
     compile 'com.android.support:recyclerview-v7:25.0.1'
 
@@ -37,6 +37,4 @@ dependencies {
 //    compile 'com.squareup.okhttp3:okhttp:3.5.0'
 //    compile 'com.squareup.retrofit2:retrofit:2.1.0'
 //    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
-
-    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
 }
