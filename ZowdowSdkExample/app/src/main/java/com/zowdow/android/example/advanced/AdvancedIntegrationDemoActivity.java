@@ -1,4 +1,4 @@
-package com.searchmaster.searchapp.advanced;
+package com.zowdow.android.example.advanced;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -12,11 +12,11 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import com.searchmaster.searchapp.R;
-import com.searchmaster.searchapp.advanced.network.BingNetworkService;
-import com.searchmaster.searchapp.advanced.network.BingResponse;
-import com.searchmaster.searchapp.advanced.network.BingSuggestion;
 import com.squareup.okhttp.OkHttpClient;
+import com.zowdow.android.example.R;
+import com.zowdow.android.example.advanced.network.BingNetworkService;
+import com.zowdow.android.example.advanced.network.BingResponse;
+import com.zowdow.android.example.advanced.network.BingSuggestion;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;

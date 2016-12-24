@@ -1,4 +1,4 @@
-package com.searchmaster.searchapp.advanced.network;
+package com.zowdow.android.example.advanced.network;
 
 import retrofit.Call;
 import retrofit.http.GET;

@@ -1,4 +1,4 @@
-package com.searchmaster.searchapp.advanced.network;
+package com.zowdow.android.example.advanced.network;
 
 import java.util.ArrayList;
 import java.util.List;

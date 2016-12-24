@@ -1,4 +1,4 @@
-package com.searchmaster.searchapp.basic;
+package com.zowdow.android.example.basic;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -9,7 +9,7 @@ import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import com.searchmaster.searchapp.R;
+import com.zowdow.android.example.R;
 
 import java.util.List;
 

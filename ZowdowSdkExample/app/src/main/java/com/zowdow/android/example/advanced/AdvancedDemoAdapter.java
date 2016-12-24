@@ -1,4 +1,4 @@
-package com.searchmaster.searchapp.advanced;
+package com.zowdow.android.example.advanced;
 
 import android.view.LayoutInflater;
 import android.view.View;

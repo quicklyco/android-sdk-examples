@@ -1,4 +1,4 @@
-package com.searchmaster.searchapp;
+package com.zowdow.android.example;
 
 import android.Manifest;
 import android.content.Intent;
@@ -9,8 +9,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.searchmaster.searchapp.advanced.AdvancedIntegrationDemoActivity;
-import com.searchmaster.searchapp.basic.BasicIntegrationDemoActivity;
+import com.zowdow.android.example.advanced.AdvancedIntegrationDemoActivity;
+import com.zowdow.android.example.basic.BasicIntegrationDemoActivity;
 
 public class StartActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_PERMISSIONS = 1;
