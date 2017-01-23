@@ -20,6 +20,10 @@ import com.zowdow.direct_api.utils.helpers.ImageParams;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * Vieholder for each suggestion item. Most suggestions contain cards,
+ * so RecyclerView for cards is also initialized here.
+ */
 public class SuggestionViewHolder extends RecyclerView.ViewHolder {
     private static final float SCALE_FACTOR = 1.3f;
     private static final int ITEMS_SPACING = 8;
@@ -59,6 +63,9 @@ public class SuggestionViewHolder extends RecyclerView.ViewHolder {
         suggestionTextView.setText(currentSuggestion.getSuggestion());
     }
 
+    /**
+     * Sets list of cards with horizontal scroll.
+     */
     private void setupCarousel() {
         cardsAdapter = new CardsAdapter(context, currentSuggestion, currentSuggestion.getCards());
         cardsAdapter.setCardClickListener(cardClickListener);

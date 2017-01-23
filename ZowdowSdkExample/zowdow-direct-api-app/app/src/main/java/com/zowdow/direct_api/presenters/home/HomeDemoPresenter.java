@@ -32,6 +32,10 @@ import rx.subjects.PublishSubject;
 
 import static com.zowdow.direct_api.utils.constants.CardFormats.CARD_FORMAT_STAMP;
 
+/**
+ * Represents business-logic for HomeDemoActivity.
+ * Responsible for suggestions retrieval and processing.
+ */
 public class HomeDemoPresenter implements Presenter<IHomeView> {
     private static final String TAG = "HomeDemoPresenter";
     private static final String DEFAULT_CAROUSEL_TYPE = "stream";
@@ -84,6 +88,11 @@ public class HomeDemoPresenter implements Presenter<IHomeView> {
         }
     }
 
+    /**
+     * Called when initialization API returns successful result.
+     * As soon as it happens you may proceed with interaction with
+     * Unified API.
+     */
     private void onApiInitialized() {
         if (!apiInitialized) {
             startTrackingSuggestionsSearch();
@@ -95,11 +104,20 @@ public class HomeDemoPresenter implements Presenter<IHomeView> {
         }
     }
 
+    /**
+     * Invoked when search query is changed.
+     * @param searchQuery
+     */
     public void onSearchQueryChanged(String searchQuery) {
         this.searchQuery = searchQuery;
         searchQuerySubject.onNext(searchQuery);
     }
 
+    /**
+     * Activates listener that observes keyword changes and depending on
+     * them invokes methods responsible for suggestions retrieval for given
+     * criteria.
+     */
     private void startTrackingSuggestionsSearch() {
         dynamicSearchSubscription = searchQuerySubject.debounce(100, TimeUnit.MILLISECONDS)
                 .onBackpressureLatest()
@@ -110,6 +128,10 @@ public class HomeDemoPresenter implements Presenter<IHomeView> {
                 });
     }
 
+    /**
+     * Prepares parameters for suggestions retrieval.
+     * @param searchQuery
+     */
     private void retrieveSuggestions(String searchQuery) {
         Map<String, Object> queryMap = RequestUtils.createQueryMap(context);
         try {
@@ -136,7 +158,7 @@ public class HomeDemoPresenter implements Presenter<IHomeView> {
                 .subscribeOn(Schedulers.io())
                 .cache()
                 .subscribe(this::processSuggestionsResponse, throwable -> {
-                    view.onApiInitializationFailed();
+                    view.onSuggestionsLoadingFailed();
                     Log.e(TAG, "Could not load suggestions: " + throwable.getMessage());
                 });
     }
@@ -150,7 +172,7 @@ public class HomeDemoPresenter implements Presenter<IHomeView> {
                     suggestionItem
                             .getSuggestion()
                             .toSuggestion(rId, DEFAULT_CAROUSEL_TYPE, currentCardFormat)
-                )
+                ) // performs suggestion deserialization
                 .toList()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(suggestions -> {
@@ -165,6 +187,9 @@ public class HomeDemoPresenter implements Presenter<IHomeView> {
         retrieveSuggestions(searchQuery);
     }
 
+    /**
+     * Unsubscribes from asynchronous operations in the scope of current activity.
+     */
     private void unsubscribeFromNetworkCalls() {
         if (suggestionsSubscription != null && !suggestionsSubscription.isUnsubscribed()) {
             suggestionsSubscription.unsubscribe();

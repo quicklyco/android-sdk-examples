@@ -13,6 +13,9 @@ import com.zowdow.direct_api.network.models.unified.suggestions.Suggestion;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Adapter for suggestions list.
+ */
 public class SuggestionsAdapter extends RecyclerView.Adapter<SuggestionViewHolder> {
     private Context context;
     private List<Suggestion> suggestions;

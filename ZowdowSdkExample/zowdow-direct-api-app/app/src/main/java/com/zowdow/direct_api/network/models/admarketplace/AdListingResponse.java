@@ -5,6 +5,9 @@ import org.simpleframework.xml.Root;
 
 import java.util.List;
 
+/**
+ * Response-wrapper for XML ad listings.
+ */
 @Root(name = "result", strict = false)
 public class AdListingResponse {
     @ElementList(name = "adlistings")

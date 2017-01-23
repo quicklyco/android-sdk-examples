@@ -33,6 +33,9 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * Adapter for cards list inside each suggestion carousel.
+ */
 public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardViewHolder> {
     private Context context;
     private Suggestion currentSuggestion;
@@ -82,6 +85,12 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardViewHold
         });
     }
 
+    /**
+     * Handles card click events depending on their type & target.
+     * @see ActionTypes
+     * @param context
+     * @param card
+     */
     private void processCardClick(Context context, Card card) {
         HashMap<String, String> actions = new HashMap<>();
         for (ActionDTO action : card.getActions()) {

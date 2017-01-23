@@ -21,7 +21,8 @@
         android:name=".ZowdowDirectApplication"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.zowdow.direct_api.ui.sections.home.HomeDemoActivity">
+            android:name="com.zowdow.direct_api.ui.sections.home.HomeDemoActivity"
+            android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

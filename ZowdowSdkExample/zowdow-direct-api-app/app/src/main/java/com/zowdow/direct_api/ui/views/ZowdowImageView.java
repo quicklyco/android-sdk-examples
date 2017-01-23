@@ -21,6 +21,10 @@ import javax.inject.Inject;
 
 import rx.schedulers.Schedulers;
 
+/**
+ * Customized ImageView class which provides interaction with
+ * Zowdow tracking mechanism out-of-the-box.
+ */
 public class ZowdowImageView extends ImageView {
     private static final String TAG = ZowdowImageView.class.getSimpleName();
 
@@ -58,6 +62,9 @@ public class ZowdowImageView extends ImageView {
         super.setImageDrawable(drawable);
     }
 
+    /**
+     * Called when image drawable is defined for this ImageView.
+     */
     private void onCardShown() {
         HashMap<String, String> actions = new HashMap<>();
         for (ActionDTO action : currentCard.getActions()) {
@@ -71,6 +78,10 @@ public class ZowdowImageView extends ImageView {
         }
     }
 
+    /**
+     * Calls ads available for a certain card downloading.
+     * @param rawAdsUrl
+     */
     private void fetchAdMarketInfo(String rawAdsUrl) {
         adService.loadAdListings(rawAdsUrl)
                 .subscribeOn(Schedulers.io())

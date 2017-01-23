@@ -12,6 +12,9 @@ import android.webkit.WebView;
 
 import com.zowdow.direct_api.R;
 
+/**
+ * Activity with a single youtube-video player.
+ */
 public class VideoActivity extends AppCompatActivity {
     public static final String EXTRA_VIDEO = "extra-video";
 

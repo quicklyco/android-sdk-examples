@@ -6,6 +6,9 @@ import android.os.Parcelable;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
+/**
+ * Represents ad listing, retrieved from ad listings XML.
+ */
 @Root(name = "listing", strict = false)
 public class AdListingDTO implements Parcelable {
     @Element(name = "clickurl")

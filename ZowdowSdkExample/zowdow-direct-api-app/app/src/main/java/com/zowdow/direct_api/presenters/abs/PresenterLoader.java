@@ -3,6 +3,11 @@ package com.zowdow.direct_api.presenters.abs;
 import android.content.Context;
 import android.support.v4.content.Loader;
 
+/**
+ * Loader that keeps presenters for certain activities alive and restores them after
+ * activity recreation.
+ * @param <T>
+ */
 public class PresenterLoader<T extends Presenter> extends Loader<T> {
     private final PresenterFactory<T> factory;
     private T presenter;

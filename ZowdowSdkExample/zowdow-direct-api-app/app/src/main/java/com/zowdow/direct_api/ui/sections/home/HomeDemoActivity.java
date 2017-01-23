@@ -107,7 +107,7 @@ public class HomeDemoActivity extends BaseActivity<HomeDemoPresenter, IHomeView>
     }
 
     @Override
-    public void onApiInitializationFailed() {
+    public void onSuggestionsLoadingFailed() {
         Snackbar.make(suggestionsListView, R.string.warning_no_connection, Snackbar.LENGTH_LONG).show();
     }
 
