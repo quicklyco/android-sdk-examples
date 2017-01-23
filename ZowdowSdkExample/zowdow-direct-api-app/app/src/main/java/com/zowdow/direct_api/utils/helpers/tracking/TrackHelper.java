@@ -10,7 +10,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class TrackHelper {
-    public static final String TAG = TrackHelper.class.getSimpleName();
+    private static final String TAG = TrackHelper.class.getSimpleName();
 
     private UnifiedApiService unifiedApiService;
 
@@ -27,7 +27,7 @@ public class TrackHelper {
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Log.e(TAG, "Tracked impression for " + impressionUrl + " with failure...");
+                Log.e(TAG, "Tracked impression for " + impressionUrl + " with failure");
             }
         });
     }
@@ -41,7 +41,7 @@ public class TrackHelper {
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Log.e(TAG, "Tracked clicking " + clickUrl + " with failure...");
+                Log.e(TAG, "Tracked clicking " + clickUrl + " with failure");
             }
         });
     }

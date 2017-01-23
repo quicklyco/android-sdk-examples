@@ -55,7 +55,7 @@ public class HomeDemoActivity extends BaseActivity<HomeDemoPresenter, IHomeView>
         suggestionsListView.setAdapter(suggestionsAdapter);
     }
 
-    private void onCardClicked(String webUrl, String suggestionTitle, String clickUrl) {
+    private void onCardClicked(String webUrl, String suggestionTitle) {
         Intent webIntent = new Intent(this, WebViewActivity.class);
         webIntent.putExtra(ExtraKeys.EXTRA_ARTICLE_TITLE, suggestionTitle);
         webIntent.putExtra(ExtraKeys.EXTRA_ARTICLE_URL, webUrl);

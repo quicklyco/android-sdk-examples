@@ -4,6 +4,7 @@ import com.zowdow.direct_api.injection.modules.NetworkModule;
 import com.zowdow.direct_api.presenters.home.HomeDemoPresenter;
 import com.zowdow.direct_api.ui.sections.adapters.CardsAdapter;
 import com.zowdow.direct_api.ui.sections.adapters.SuggestionViewHolder;
+import com.zowdow.direct_api.ui.views.ZowdowImageView;
 
 import javax.inject.Singleton;
 
@@ -15,4 +16,5 @@ public interface NetworkComponent {
     void inject(HomeDemoPresenter presenter);
     void inject(SuggestionViewHolder viewHolder);
     void inject(CardsAdapter adapter);
+    void inject(ZowdowImageView view);
 }

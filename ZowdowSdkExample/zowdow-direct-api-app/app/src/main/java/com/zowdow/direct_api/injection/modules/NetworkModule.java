@@ -2,6 +2,7 @@ package com.zowdow.direct_api.injection.modules;
 
 import com.google.gson.GsonBuilder;
 import com.zowdow.direct_api.network.ApiBaseUrls;
+import com.zowdow.direct_api.network.services.AdMarketPlaceService;
 import com.zowdow.direct_api.network.services.InitApiService;
 import com.zowdow.direct_api.network.services.UnifiedApiService;
 import com.zowdow.direct_api.utils.helpers.tracking.TrackHelper;
@@ -41,8 +42,19 @@ public class NetworkModule {
 
     @Provides
     @Singleton
-    UnifiedApiService provideUnifiedApiService(Retrofit.Builder retrofitBuilder) {
-        return retrofitBuilder.baseUrl(ApiBaseUrls.UNIFIED_API).build().create(UnifiedApiService.class);
+    Retrofit provideUnifiedRetrofitAdapter(Retrofit.Builder retrofitBuilder) {
+        return retrofitBuilder.baseUrl(ApiBaseUrls.UNIFIED_API).build();
+    }
+
+    @Provides
+    @Singleton
+    UnifiedApiService provideUnifiedApiService(Retrofit retrofit) {
+        return retrofit.create(UnifiedApiService.class);
+    }
+
+    @Provides
+    AdMarketPlaceService provideAdMarketPlaceService(Retrofit retrofit) {
+        return retrofit.create(AdMarketPlaceService.class);
     }
 
     @Provides
