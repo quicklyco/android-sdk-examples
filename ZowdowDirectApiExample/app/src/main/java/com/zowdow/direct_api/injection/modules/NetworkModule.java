@@ -56,6 +56,7 @@ public class NetworkModule {
     }
 
     @Provides
+    @Singleton
     AdMarketPlaceService provideAdMarketPlaceService(Retrofit retrofit) {
         return retrofit.create(AdMarketPlaceService.class);
     }

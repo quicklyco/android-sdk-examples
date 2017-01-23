@@ -1,4 +1,4 @@
-package com.zowdow.direct_api.ui.sections.adapters;
+package com.zowdow.direct_api.ui.adapters;
 
 /**
  * Interface definition for a callback to be invoked when a card is clicked.

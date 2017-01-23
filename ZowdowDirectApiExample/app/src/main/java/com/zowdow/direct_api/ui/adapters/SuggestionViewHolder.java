@@ -1,4 +1,4 @@
-package com.zowdow.direct_api.ui.sections.adapters;
+package com.zowdow.direct_api.ui.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

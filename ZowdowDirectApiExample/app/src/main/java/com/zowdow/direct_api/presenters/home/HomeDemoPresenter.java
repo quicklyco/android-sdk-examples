@@ -167,12 +167,12 @@ public class HomeDemoPresenter implements Presenter<IHomeView> {
         final String rId = suggestionsResponse.getMeta().getRid();
         suggestionsSubscription = Observable.just(suggestionsResponse)
                 .subscribeOn(Schedulers.io())
-                .flatMapIterable(BaseResponse::getRecords)
-                .map(suggestionItem ->
+                .flatMapIterable(BaseResponse::getRecords) // converts response wrapper into an iterable list of suggestions
+                .map(suggestionItem -> // performs suggestion deserialization
                     suggestionItem
                             .getSuggestion()
                             .toSuggestion(rId, DEFAULT_CAROUSEL_TYPE, currentCardFormat)
-                ) // performs suggestion deserialization
+                )
                 .toList()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(suggestions -> {

@@ -20,7 +20,7 @@ import com.zowdow.direct_api.presenters.abs.PresenterFactory;
 import com.zowdow.direct_api.presenters.home.HomeDemoPresenter;
 import com.zowdow.direct_api.presenters.home.IHomeView;
 import com.zowdow.direct_api.ui.sections.abs.BaseActivity;
-import com.zowdow.direct_api.ui.sections.adapters.SuggestionsAdapter;
+import com.zowdow.direct_api.ui.adapters.SuggestionsAdapter;
 import com.zowdow.direct_api.ui.sections.web.WebViewActivity;
 import com.zowdow.direct_api.utils.constants.CardFormats;
 import com.zowdow.direct_api.utils.constants.ExtraKeys;
@@ -35,6 +35,8 @@ public class HomeDemoActivity extends BaseActivity<HomeDemoPresenter, IHomeView>
     private HomeDemoPresenter presenter;
     private SuggestionsAdapter suggestionsAdapter;
     private LinearLayoutManager layoutManager;
+
+    private Integer storedListViewPosition;
 
     @BindView(R.id.suggestion_query_edit_text)
     EditText suggestionQueryEditText;
@@ -96,8 +98,15 @@ public class HomeDemoActivity extends BaseActivity<HomeDemoPresenter, IHomeView>
         if (suggestions != null && !suggestions.isEmpty()) {
             noItemsPlaceholderTextView.setVisibility(View.GONE);
             suggestionsListView.setVisibility(View.VISIBLE);
+            restoreSuggestionsListViewPosition();
         } else {
             noItemsPlaceholderTextView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void restoreSuggestionsListViewPosition() {
+        if (storedListViewPosition != null) {
+            suggestionsListView.getLayoutManager().scrollToPosition(storedListViewPosition);
         }
     }
 
@@ -135,6 +144,20 @@ public class HomeDemoActivity extends BaseActivity<HomeDemoPresenter, IHomeView>
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState != null) {
+            storedListViewPosition = savedInstanceState.getInt(ExtraKeys.EXTRA_RECYCLER_VIEW_STATE);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(ExtraKeys.EXTRA_RECYCLER_VIEW_STATE, ((LinearLayoutManager) suggestionsListView.getLayoutManager()).findFirstCompletelyVisibleItemPosition());
     }
 
     @NonNull
