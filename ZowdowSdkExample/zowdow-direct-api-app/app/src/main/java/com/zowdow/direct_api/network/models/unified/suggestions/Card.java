@@ -45,6 +45,8 @@ public class Card implements Parcelable {
     @SerializedName("actions") private      List<ActionDTO> mActions;
     private                                 boolean         mTracked;
     private                                 boolean         mGif;
+    @SerializedName("card_impression_url")  private String  mImpressionUrl;
+    @SerializedName("card_click_url")       private String  mClickUrl;
 
     public Card() {}
 
@@ -442,6 +444,22 @@ public class Card implements Parcelable {
         mActions = actions;
     }
 
+    public String getImpressionUrl() {
+        return mImpressionUrl;
+    }
+
+    public void setImpressionUrl(String impressionUrl) {
+        this.mImpressionUrl = impressionUrl;
+    }
+
+    public String getClickUrl() {
+        return mClickUrl;
+    }
+
+    public void setClickUrl(String clickUrl) {
+        this.mClickUrl = clickUrl;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -471,6 +489,8 @@ public class Card implements Parcelable {
         dest.writeInt(mD2w);
         dest.writeInt(mCardRank);
         dest.writeString(mCardFormat);
+        dest.writeString(mClickUrl);
+        dest.writeString(mImpressionUrl);
         JsonArray actions = new JsonArray();
         for (ActionDTO action : mActions) {
             JsonObject jsonAction = new JsonObject();
@@ -522,6 +542,8 @@ public class Card implements Parcelable {
         mD2w = source.readInt();
         mCardRank = source.readInt();
         mCardFormat = source.readString();
+        mImpressionUrl = source.readString();
+        mClickUrl = source.readString();
         mActions = new ArrayList<>();
         JsonArray actions = new JsonParser().parse(source.readString()).getAsJsonArray();
         for (JsonElement jsonElement : actions) {

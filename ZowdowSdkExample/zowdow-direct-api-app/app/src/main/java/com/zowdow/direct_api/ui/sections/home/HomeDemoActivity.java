@@ -8,7 +8,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.zowdow.direct_api.R;
 import com.zowdow.direct_api.network.models.unified.suggestions.Suggestion;
@@ -35,6 +37,8 @@ public class HomeDemoActivity extends BaseActivity<HomeDemoPresenter, IHomeView>
     EditText suggestionQueryEditText;
     @BindView(R.id.suggestions_list_view)
     RecyclerView suggestionsListView;
+    @BindView(R.id.placeholder_text_view)
+    TextView noItemsPlaceholderTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +52,7 @@ public class HomeDemoActivity extends BaseActivity<HomeDemoPresenter, IHomeView>
         suggestionsListView.setAdapter(suggestionsAdapter);
     }
 
-    private void onCardClicked(String webUrl, String suggestionTitle) {
+    private void onCardClicked(String webUrl, String suggestionTitle, String clickUrl) {
         Intent webIntent = new Intent(this, WebViewActivity.class);
         webIntent.putExtra(ExtraKeys.EXTRA_ARTICLE_TITLE, suggestionTitle);
         webIntent.putExtra(ExtraKeys.EXTRA_ARTICLE_URL, webUrl);
@@ -86,6 +90,12 @@ public class HomeDemoActivity extends BaseActivity<HomeDemoPresenter, IHomeView>
     @Override
     public void onSuggestionsLoaded(List<Suggestion> suggestions) {
         suggestionsAdapter.setSuggestions(suggestions);
+        if (suggestions != null && !suggestions.isEmpty()) {
+            noItemsPlaceholderTextView.setVisibility(View.GONE);
+            suggestionsListView.setVisibility(View.VISIBLE);
+        } else {
+            noItemsPlaceholderTextView.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -95,7 +105,7 @@ public class HomeDemoActivity extends BaseActivity<HomeDemoPresenter, IHomeView>
 
     @Override
     public void onApiInitializationFailed() {
-        Snackbar.make(suggestionsListView, "Could not initialize ZowDow API", Snackbar.LENGTH_LONG).show();
+        Snackbar.make(suggestionsListView, R.string.warning_no_connection, Snackbar.LENGTH_LONG).show();
     }
 
     @NonNull

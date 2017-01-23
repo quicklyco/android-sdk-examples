@@ -12,6 +12,8 @@ import com.zowdow.direct_api.network.services.InitApiService;
 import com.zowdow.direct_api.network.services.UnifiedApiService;
 import com.zowdow.direct_api.presenters.abs.Presenter;
 import com.zowdow.direct_api.utils.RequestUtils;
+import com.zowdow.direct_api.utils.constants.QueryKeys;
+import com.zowdow.direct_api.utils.helpers.tracking.TrackHelper;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -50,6 +52,7 @@ public class HomeDemoPresenter implements Presenter<IHomeView> {
     private Subscription dynamicSearchSubscription;
     @Inject InitApiService initApiService;
     @Inject UnifiedApiService unifiedApiService;
+    @Inject TrackHelper trackHelper;
 
     public HomeDemoPresenter(Context context) {
         this.context = context;
@@ -65,7 +68,7 @@ public class HomeDemoPresenter implements Presenter<IHomeView> {
 
     public void initializeZowdowApi() {
         Map<String, Object> initQueryMap = RequestUtils.createQueryMap(context);
-        initQueryMap.put(RequestUtils.DEVICE_ID, RequestUtils.getDeviceId(context));
+        initQueryMap.put(QueryKeys.DEVICE_ID, RequestUtils.getDeviceId(context));
         if (apiInitialized) {
             onApiInitialized();
         } else {
@@ -123,8 +126,8 @@ public class HomeDemoPresenter implements Presenter<IHomeView> {
         unifiedQueryMap.put("q", URLEncoder.encode(searchQuery, "UTF-8").replace("+", " "));
         unifiedQueryMap.put("s_limit", DEFAULT_SUGGESTIONS_LIMIT);
         unifiedQueryMap.put("c_limit", DEFAULT_CARDS_LIMIT);
-        unifiedQueryMap.put(RequestUtils.CARD_FORMAT, DEFAULT_CARD_FORMAT);
-        unifiedQueryMap.put(RequestUtils.DEVICE_ID, RequestUtils.getDeviceId(context.getApplicationContext()));
+        unifiedQueryMap.put(QueryKeys.CARD_FORMAT, DEFAULT_CARD_FORMAT);
+        unifiedQueryMap.put(QueryKeys.DEVICE_ID, RequestUtils.getDeviceId(context.getApplicationContext()));
         return unifiedQueryMap;
     }
 
@@ -155,6 +158,10 @@ public class HomeDemoPresenter implements Presenter<IHomeView> {
                 }, throwable -> {
                     Log.e(TAG, "Could not load suggestions: " + throwable.getMessage());
                 });
+    }
+
+    public void trackCardClick(String cardClickUrl) {
+        trackHelper.trackClick(cardClickUrl);
     }
 
     private void unsubscribeFromNetworkCalls() {

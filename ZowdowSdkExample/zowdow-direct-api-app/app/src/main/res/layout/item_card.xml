@@ -14,7 +14,7 @@
         card:cardUseCompatPadding="true"
         card:cardCornerRadius="0dp"
         card:cardElevation="0dp">
-        <ImageView
+        <com.zowdow.direct_api.ui.views.ZowdowImageView
             android:id="@+id/card_image_view"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

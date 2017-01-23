@@ -28,4 +28,16 @@
         android:layout_below="@id/suggestion_query_layout"
         android:padding="2dp">
     </android.support.v7.widget.RecyclerView>
+    <TextView
+        android:layout_margin="36dp"
+        android:id="@+id/placeholder_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_below="@id/suggestion_query_layout"
+        android:textColor="@color/primary_text"
+        android:textSize="16sp"
+        android:visibility="gone"
+        android:gravity="center"
+        android:text="@string/label_no_suggestions_placeholder"/>
 </RelativeLayout>

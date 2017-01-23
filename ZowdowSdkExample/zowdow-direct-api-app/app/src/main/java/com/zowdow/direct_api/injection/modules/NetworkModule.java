@@ -3,8 +3,8 @@ package com.zowdow.direct_api.injection.modules;
 import com.google.gson.GsonBuilder;
 import com.zowdow.direct_api.network.ApiBaseUrls;
 import com.zowdow.direct_api.network.services.InitApiService;
-import com.zowdow.direct_api.network.services.TrackingApiService;
 import com.zowdow.direct_api.network.services.UnifiedApiService;
+import com.zowdow.direct_api.utils.helpers.tracking.TrackHelper;
 
 import javax.inject.Singleton;
 
@@ -47,7 +47,7 @@ public class NetworkModule {
 
     @Provides
     @Singleton
-    TrackingApiService provideTrackingApiService(Retrofit.Builder retrofitBuilder) {
-        return retrofitBuilder.baseUrl(ApiBaseUrls.TRACK_API).build().create(TrackingApiService.class);
+    TrackHelper provideTrackHelper(UnifiedApiService unifiedApiService) {
+        return new TrackHelper(unifiedApiService);
     }
 }

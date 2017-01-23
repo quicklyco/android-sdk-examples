@@ -9,11 +9,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.zowdow.direct_api.R;
+import com.zowdow.direct_api.ZowdowDirectApplication;
 import com.zowdow.direct_api.network.models.unified.suggestions.Card;
 import com.zowdow.direct_api.network.models.unified.suggestions.Suggestion;
 import com.zowdow.direct_api.ui.views.DividerItemDecoration;
+import com.zowdow.direct_api.ui.views.ZowdowImageView;
 import com.zowdow.direct_api.utils.ViewUtils;
 import com.zowdow.direct_api.utils.helpers.ImageParams;
+import com.zowdow.direct_api.utils.helpers.tracking.TrackHelper;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,6 +35,8 @@ public class SuggestionViewHolder extends RecyclerView.ViewHolder {
     private DividerItemDecoration dividerItemDecoration;
     private OnCardClickListener cardClickListener;
 
+    @Inject TrackHelper trackHelper;
+
     @BindView(R.id.root_layout)
     RelativeLayout rootLayout;
     @BindView(R.id.suggestion_text_view)
@@ -44,6 +51,7 @@ public class SuggestionViewHolder extends RecyclerView.ViewHolder {
         layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
         cardClickListener = clickListener;
         ButterKnife.bind(this, itemView);
+        ZowdowDirectApplication.getNetworkComponent().inject(this);
     }
 
     public void setupCarousel(Suggestion currentSuggestion) {
@@ -64,6 +72,7 @@ public class SuggestionViewHolder extends RecyclerView.ViewHolder {
         cardsListView.setChildDrawingOrderCallback(null);
         cardsListView.setLayoutManager(layoutManager);
         cardsListView.setAdapter(cardsAdapter);
+        cardsListView.addOnScrollListener(createTrackOnScrollListener());
 
         dividerItemDecoration.setTopBottomPadding(ITEMS_SPACING);
         rootLayout.getLayoutParams().height = getRowHeight(SUGGESTION_HEIGHT + ITEMS_SPACING);
@@ -73,5 +82,24 @@ public class SuggestionViewHolder extends RecyclerView.ViewHolder {
         Card card = currentSuggestion.getCards().get(0);
         ImageParams imageParams = ImageParams.create(card);
         return (int) (imageParams.height + ViewUtils.dpToPx(additionalHeight) * SCALE_FACTOR);
+    }
+
+    @NonNull
+    private RecyclerView.OnScrollListener createTrackOnScrollListener() {
+        return new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                final int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
+                final int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
+                for (int i = firstVisibleItemPosition; i <= lastVisibleItemPosition; i++) {
+                    View container = recyclerView.getChildAt(i);
+                    if (container != null) {
+                        ZowdowImageView image = (ZowdowImageView) container.findViewById(R.id.card_image_view);
+                        image.sendTrackInfo(trackHelper);
+                    }
+                }
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        };
     }
 }

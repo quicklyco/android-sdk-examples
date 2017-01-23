@@ -9,22 +9,26 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.target.ImageViewTarget;
 import com.zowdow.direct_api.R;
+import com.zowdow.direct_api.ZowdowDirectApplication;
 import com.zowdow.direct_api.network.models.unified.ActionDTO;
 import com.zowdow.direct_api.network.models.unified.suggestions.Card;
 import com.zowdow.direct_api.network.models.unified.suggestions.Suggestion;
 import com.zowdow.direct_api.ui.sections.media.VideoActivity;
+import com.zowdow.direct_api.ui.views.ZowdowImageView;
 import com.zowdow.direct_api.utils.ViewUtils;
 import com.zowdow.direct_api.utils.constants.ActionTypes;
 import com.zowdow.direct_api.utils.helpers.ImageParams;
+import com.zowdow.direct_api.utils.helpers.tracking.TrackHelper;
 
 import java.util.HashMap;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,7 +39,14 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardViewHold
     private List<Card> cards;
     private OnCardClickListener cardClickListener;
 
+    @Inject TrackHelper trackHelper;
+
+    private CardsAdapter() {
+        ZowdowDirectApplication.getNetworkComponent().inject(this);
+    }
+
     public CardsAdapter(@NonNull Context context, @NonNull Suggestion currentSuggestion, @NonNull List<Card> cards) {
+        this();
         this.context = context;
         this.currentSuggestion = currentSuggestion;
         this.cards = cards;
@@ -63,6 +74,9 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardViewHold
                     protected void setResource(GlideDrawable resource) {
                         holder.cardRootView.setCardElevation(ViewUtils.dpToPx(2));
                         holder.cardImageView.setImageDrawable(resource);
+                        holder.cardImageView.setTrackInfo(currentCard, currentSuggestion.getSuggestion(), currentCard.getCardFormat(),
+                                currentCard.getClickUrl(), currentCard.getImpressionUrl()
+                        );
                     }
                 });
         holder.cardImageView.setOnClickListener(v -> {
@@ -80,26 +94,28 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardViewHold
         if (actions.containsKey(ActionTypes.ACTION_VIDEO)) {
             actionType = ActionTypes.ACTION_VIDEO;
             actionTarget = actions.get(actionType);
-            onVideoCardClicked(context, actionTarget);
+            onVideoCardClicked(context, actionTarget, card.getClickUrl());
         } else if (actions.containsKey(ActionTypes.ACTION_DEEP_LINK) &&
                 new Intent(Intent.ACTION_VIEW, Uri.parse(actions.get(ActionTypes.ACTION_DEEP_LINK))).resolveActivity(context.getPackageManager()) != null) {
             actionType = ActionTypes.ACTION_DEEP_LINK;
             actionTarget = actions.get(actionType);
-            onWebContentCardClicked(actionTarget);
+            onWebContentCardClicked(actionTarget, card.getClickUrl());
         } else if (actions.containsKey(ActionTypes.ACTION_WEB_URL)) {
             actionType = ActionTypes.ACTION_WEB_URL;
             actionTarget = actions.get(actionType);
-            onWebContentCardClicked(actionTarget);
+            onWebContentCardClicked(actionTarget, card.getClickUrl());
         }
     }
 
-    private void onWebContentCardClicked(String actionTarget) {
+    private void onWebContentCardClicked(String actionTarget, String clickUrl) {
+        trackHelper.trackClick(clickUrl);
         if (cardClickListener != null && actionTarget != null) {
-            cardClickListener.onCardClicked(actionTarget, currentSuggestion.getSuggestion());
+            cardClickListener.onCardClicked(actionTarget, currentSuggestion.getSuggestion(), clickUrl);
         }
     }
 
-    private void onVideoCardClicked(Context context, String actionTarget) {
+    private void onVideoCardClicked(Context context, String actionTarget, String clickUrl) {
+        trackHelper.trackClick(clickUrl);
         Intent intent = new Intent(context, VideoActivity.class);
         intent.putExtra(VideoActivity.EXTRA_VIDEO, actionTarget);
         context.startActivity(intent);
@@ -116,7 +132,7 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardViewHold
 
     static class CardViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.card_image_view)
-        ImageView cardImageView;
+        ZowdowImageView cardImageView;
         @BindView(R.id.card_root_view)
         CardView cardRootView;
 
