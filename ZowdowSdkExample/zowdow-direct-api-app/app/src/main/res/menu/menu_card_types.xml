@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_label_card"
+        android:orderInCategory="100"
+        android:icon="@mipmap/ic_action_card_label"
+        android:title="@string/card_type_inline"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_stamp_card"
+        android:orderInCategory="100"
+        android:icon="@mipmap/ic_action_card_stamp"
+        android:title="@string/card_type_stamp"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_ticket_card"
+        android:orderInCategory="100"
+        android:icon="@mipmap/ic_action_card_ticket"
+        android:title="@string/card_type_ticket"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_gif_card"
+        android:orderInCategory="100"
+        android:icon="@mipmap/ic_action_gif"
+        android:title="@string/card_type_gif"
+        app:showAsAction="always" />
+</menu>

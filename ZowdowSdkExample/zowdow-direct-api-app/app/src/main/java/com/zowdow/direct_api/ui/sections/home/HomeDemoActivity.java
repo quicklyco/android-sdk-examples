@@ -8,6 +8,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -20,6 +22,7 @@ import com.zowdow.direct_api.presenters.home.IHomeView;
 import com.zowdow.direct_api.ui.sections.abs.BaseActivity;
 import com.zowdow.direct_api.ui.sections.adapters.SuggestionsAdapter;
 import com.zowdow.direct_api.ui.sections.web.WebViewActivity;
+import com.zowdow.direct_api.utils.constants.CardFormats;
 import com.zowdow.direct_api.utils.constants.ExtraKeys;
 
 import java.util.ArrayList;
@@ -106,6 +109,32 @@ public class HomeDemoActivity extends BaseActivity<HomeDemoPresenter, IHomeView>
     @Override
     public void onApiInitializationFailed() {
         Snackbar.make(suggestionsListView, R.string.warning_no_connection, Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_card_types, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_label_card:
+                presenter.onCardFormatChanged(CardFormats.CARD_FORMAT_INLINE);
+                return true;
+            case R.id.action_stamp_card:
+                presenter.onCardFormatChanged(CardFormats.CARD_FORMAT_STAMP);
+                return true;
+            case R.id.action_ticket_card:
+                presenter.onCardFormatChanged(CardFormats.CARD_FORMAT_TICKET);
+                return true;
+            case R.id.action_gif_card:
+                presenter.onCardFormatChanged(CardFormats.CARD_FORMAT_ANIMATED_GIF);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @NonNull

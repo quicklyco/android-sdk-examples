@@ -8,6 +8,7 @@ import com.zowdow.direct_api.injection.components.NetworkComponent;
 import com.zowdow.direct_api.network.models.abs.BaseResponse;
 import com.zowdow.direct_api.network.models.init.InitResponse;
 import com.zowdow.direct_api.network.models.unified.UnifiedDTO;
+import com.zowdow.direct_api.network.models.unified.suggestions.CardFormat;
 import com.zowdow.direct_api.network.services.InitApiService;
 import com.zowdow.direct_api.network.services.UnifiedApiService;
 import com.zowdow.direct_api.presenters.abs.Presenter;
@@ -23,27 +24,25 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.subjects.PublishSubject;
 
-import static com.zowdow.direct_api.utils.constants.CardFormats.CARD_FORMAT_INLINE;
+import static com.zowdow.direct_api.utils.constants.CardFormats.CARD_FORMAT_STAMP;
 
 public class HomeDemoPresenter implements Presenter<IHomeView> {
     private static final String TAG = "HomeDemoPresenter";
     private static final String DEFAULT_CAROUSEL_TYPE = "stream";
-    private static final String DEFAULT_CARD_FORMAT = CARD_FORMAT_INLINE;
+    private static final String DEFAULT_CARD_FORMAT = CARD_FORMAT_STAMP;
     private static final int DEFAULT_SUGGESTIONS_LIMIT = 10;
     private static final int DEFAULT_CARDS_LIMIT = 15;
 
     private volatile boolean apiInitialized;
     private Context context;
     private String searchQuery = "";
+    private String currentCardFormat;
     private IHomeView view;
     private PublishSubject<String> searchQuerySubject;
     private Subscription initApiSubscription;
@@ -56,6 +55,7 @@ public class HomeDemoPresenter implements Presenter<IHomeView> {
 
     public HomeDemoPresenter(Context context) {
         this.context = context;
+        this.currentCardFormat = DEFAULT_CARD_FORMAT;
         this.searchQuerySubject = PublishSubject.create();
         NetworkComponent networkComponent = ZowdowDirectApplication.getNetworkComponent();
         networkComponent.inject(this);
@@ -126,7 +126,7 @@ public class HomeDemoPresenter implements Presenter<IHomeView> {
         unifiedQueryMap.put("q", URLEncoder.encode(searchQuery, "UTF-8").replace("+", " "));
         unifiedQueryMap.put("s_limit", DEFAULT_SUGGESTIONS_LIMIT);
         unifiedQueryMap.put("c_limit", DEFAULT_CARDS_LIMIT);
-        unifiedQueryMap.put(QueryKeys.CARD_FORMAT, DEFAULT_CARD_FORMAT);
+        unifiedQueryMap.put(QueryKeys.CARD_FORMAT, currentCardFormat);
         unifiedQueryMap.put(QueryKeys.DEVICE_ID, RequestUtils.getDeviceId(context.getApplicationContext()));
         return unifiedQueryMap;
     }
@@ -149,7 +149,7 @@ public class HomeDemoPresenter implements Presenter<IHomeView> {
                 .map(suggestionItem ->
                     suggestionItem
                             .getSuggestion()
-                            .toSuggestion(rId, DEFAULT_CAROUSEL_TYPE, DEFAULT_CARD_FORMAT)
+                            .toSuggestion(rId, DEFAULT_CAROUSEL_TYPE, currentCardFormat)
                 )
                 .toList()
                 .observeOn(AndroidSchedulers.mainThread())
@@ -160,8 +160,9 @@ public class HomeDemoPresenter implements Presenter<IHomeView> {
                 });
     }
 
-    public void trackCardClick(String cardClickUrl) {
-        trackHelper.trackClick(cardClickUrl);
+    public void onCardFormatChanged(@CardFormat String cardFormat) {
+        this.currentCardFormat = cardFormat;
+        retrieveSuggestions(searchQuery);
     }
 
     private void unsubscribeFromNetworkCalls() {

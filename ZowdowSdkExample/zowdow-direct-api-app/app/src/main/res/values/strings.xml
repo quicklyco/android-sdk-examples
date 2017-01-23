@@ -1,6 +1,12 @@
 <resources>
-    <string name="app_name">ZowdowDirect</string>
+    <string name="app_name">Zowdow API</string>
+
     <string name="label_keyword">Type your keyword here…</string>
     <string name="label_no_suggestions_placeholder">No suggestions found. Try with another keyword.</string>
     <string name="warning_no_connection">Can not connect to ZowDow API</string>
+
+    <string name="card_type_inline">Inline</string>
+    <string name="card_type_stamp">Stamp</string>
+    <string name="card_type_ticket">Ticket</string>
+    <string name="card_type_gif">Gif</string>
 </resources>
