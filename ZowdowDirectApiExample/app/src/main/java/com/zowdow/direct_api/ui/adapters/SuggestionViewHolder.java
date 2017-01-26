@@ -15,7 +15,7 @@ import com.zowdow.direct_api.network.models.unified.suggestions.Suggestion;
 import com.zowdow.direct_api.ui.views.DividerItemDecoration;
 import com.zowdow.direct_api.ui.views.ZowdowImageView;
 import com.zowdow.direct_api.utils.ViewUtils;
-import com.zowdow.direct_api.utils.helpers.ImageParams;
+import com.zowdow.direct_api.utils.ImageParams;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

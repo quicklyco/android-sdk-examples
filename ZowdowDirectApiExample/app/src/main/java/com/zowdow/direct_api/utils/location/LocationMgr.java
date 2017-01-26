@@ -13,24 +13,9 @@ public enum LocationMgr {
     private int mClients = 0;
 
     private AndroidLocation mAndroidLocation;
-    private GoogleLocation  mGoogleLocation;
-
-    private boolean mGoogleExists;
 
     LocationMgr() {
         mAndroidLocation = AndroidLocation.getInstance();
-
-        try {
-            Class.forName("com.google.android.gms.common.api.GoogleApiClient");
-            Class.forName("com.google.android.gms.location.LocationRequest");
-            mGoogleExists = true;
-        } catch (ClassNotFoundException e) {
-            mGoogleExists = false;
-        }
-
-        if (mGoogleExists) {
-            mGoogleLocation = GoogleLocation.getInstance();
-        }
     }
 
     /**
@@ -64,15 +49,7 @@ public enum LocationMgr {
         }
 
         mClients++;
-
-        mGoogleExists = mGoogleExists &&
-                (ConnectionResult.SUCCESS == GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context));
-
-        if (mGoogleExists) {
-            mGoogleLocation.start(context);
-        } else {
-            mAndroidLocation.start(context);
-        }
+        mAndroidLocation.start(context);
 
     }
 
@@ -81,11 +58,7 @@ public enum LocationMgr {
      */
     public synchronized void stop() {
         if (--mClients == 0) {
-            if (mGoogleExists) {
-                mGoogleLocation.stop();
-            } else {
-                mAndroidLocation.stop();
-            }
+            mAndroidLocation.stop();
         }
     }
 
@@ -101,11 +74,7 @@ public enum LocationMgr {
             return null;
         }
 
-        if (mGoogleExists) {
-            return mGoogleLocation.getLocation(context);
-        } else {
-            return mAndroidLocation.getLocation(context);
-        }
+        return mAndroidLocation.getLocation(context);
     }
 
     public static double encryptCoord(double coord) {
@@ -114,17 +83,5 @@ public enum LocationMgr {
 
     public static double decryptCoord(double coord) {
         return (coord - 123456) * 1000000;
-    }
-
-    public GoogleLocation getGoogleLocation() {
-        return mGoogleLocation;
-    }
-
-    public String getDetectedActivity() {
-        if (mGoogleLocation != null) {
-            return mGoogleLocation.getDetectedActivity();
-        } else {
-            return GoogleLocation.STATIONARY;
-        }
     }
 }

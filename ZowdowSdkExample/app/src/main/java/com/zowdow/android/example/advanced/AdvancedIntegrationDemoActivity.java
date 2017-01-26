@@ -91,7 +91,7 @@ public class AdvancedIntegrationDemoActivity extends AppCompatActivity implement
     private void setupZowDow() {
         Zowdow.initialize(this);
         mZowDow = new Zowdow(this, mZowDowCallback);
-        mLoaderConfig = new LoaderConfiguration().cardFormat(Zowdow.CARD_FORMAT_INLINE);
+        mLoaderConfig = new LoaderConfiguration().cardFormats(Zowdow.CARD_FORMAT_INLINE);
     }
 
     private void setupEditText() {

@@ -4,5 +4,4 @@ public interface ActionTypes {
     String ACTION_VIDEO = "video_play_url";
     String ACTION_DEEP_LINK = "deep_link";
     String ACTION_WEB_URL = "web_url";
-    String ACTION_AD_CALL = "ad_call";
 }

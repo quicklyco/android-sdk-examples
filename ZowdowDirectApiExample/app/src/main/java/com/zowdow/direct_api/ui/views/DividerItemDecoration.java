@@ -21,24 +21,6 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
     }
 
     /**
-     * Set gap between cards
-     *
-     * @param gap
-     */
-    public void setGap(int gap) {
-        mGap = gap;
-    }
-
-    /**
-     * Set empty space with after last card
-     *
-     * @param gap
-     */
-    public void setEndGap(int gap) {
-        mEndGap = gap;
-    }
-
-    /**
      * Set top and bottom padding
      *
      * @param topBottomPadding

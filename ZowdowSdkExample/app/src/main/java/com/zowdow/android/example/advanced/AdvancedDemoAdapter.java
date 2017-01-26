@@ -24,7 +24,7 @@ public class AdvancedDemoAdapter extends BaseAdapter {
 
     public AdvancedDemoAdapter(OnSuggestionClickListener onSuggestionClickListener, OnCardClickListener onCardClickListener) {
         mParams = new Zowdow.Params();
-        mParams.setCarouselType(Zowdow.CAROUSEL_LINEAR_FULL);
+        mParams.setCarouselType(Zowdow.CAROUSEL_STREAM);
         mParams.setOnSuggestionClickListener(onSuggestionClickListener);
         mParams.setOnCardClickListener(onCardClickListener);
     }

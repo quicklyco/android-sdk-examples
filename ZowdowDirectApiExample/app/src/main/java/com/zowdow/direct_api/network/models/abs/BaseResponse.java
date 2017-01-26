@@ -13,15 +13,7 @@ public class BaseResponse<T> {
         return mMeta;
     }
 
-    public void setMeta(MetaDTO meta) {
-        mMeta = meta;
-    }
-
     public List<T> getRecords() {
         return mRecords;
-    }
-
-    public void setRecords(List<T> records) {
-        mRecords = records;
     }
 }

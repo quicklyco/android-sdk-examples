@@ -14,13 +14,11 @@ public interface QueryKeys {
     String SDK_VER           = "sdk_ver";
     String LAT               = "lat";
     String LONG              = "long";
-    String LOCATION_ACCURACY = "location_accuracy";
     String ANDROID_ID        = "android_id";
     String NETWORK           = "network";
     String LOCALE            = "locale";
     String TIMEZONE          = "timezone";
-    String KEYBOARD          = "keyboard";
     String CARD_FORMAT       = "card_format";
     String TRACKING          = "tracking";
-    String ADS_AVAILIBILITY  = "ads";
+    String LOCATION_ACCURACY = "location_accuracy";
 }

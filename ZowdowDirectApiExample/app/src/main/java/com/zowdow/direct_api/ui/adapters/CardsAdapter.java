@@ -22,8 +22,8 @@ import com.zowdow.direct_api.ui.sections.media.VideoActivity;
 import com.zowdow.direct_api.ui.views.ZowdowImageView;
 import com.zowdow.direct_api.utils.ViewUtils;
 import com.zowdow.direct_api.utils.constants.ActionTypes;
-import com.zowdow.direct_api.utils.helpers.ImageParams;
-import com.zowdow.direct_api.utils.helpers.tracking.TrackHelper;
+import com.zowdow.direct_api.utils.ImageParams;
+import com.zowdow.direct_api.utils.TrackHelper;
 
 import java.util.HashMap;
 import java.util.List;
@@ -77,7 +77,7 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardViewHold
                     protected void setResource(GlideDrawable resource) {
                         holder.cardRootView.setCardElevation(ViewUtils.dpToPx(2));
                         holder.cardImageView.setImageDrawable(resource);
-                        holder.cardImageView.setTrackInfo(currentCard, currentSuggestion.getSuggestion());
+                        holder.cardImageView.setTrackInfo(currentCard);
                     }
                 });
         holder.cardImageView.setOnClickListener(v -> {
@@ -98,11 +98,7 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardViewHold
         }
         String actionType;
         String actionTarget;
-        if (actions.containsKey(ActionTypes.ACTION_AD_CALL)) {
-            actionType = ActionTypes.ACTION_AD_CALL;
-            actionTarget = actions.get(actionType);
-            onAdMarketCardClicked(card.getClickUrl());
-        } else if (actions.containsKey(ActionTypes.ACTION_VIDEO)) {
+        if (actions.containsKey(ActionTypes.ACTION_VIDEO)) {
             actionType = ActionTypes.ACTION_VIDEO;
             actionTarget = actions.get(actionType);
             onVideoCardClicked(context, actionTarget, card.getClickUrl());
@@ -130,13 +126,6 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardViewHold
         Intent intent = new Intent(context, VideoActivity.class);
         intent.putExtra(VideoActivity.EXTRA_VIDEO, actionTarget);
         context.startActivity(intent);
-    }
-
-    private void onAdMarketCardClicked(String clickUrl) {
-        if (cardClickListener != null && clickUrl != null && !clickUrl.isEmpty()) {
-            trackHelper.trackClick(clickUrl);
-            cardClickListener.onCardClicked(clickUrl, currentSuggestion.getSuggestion());
-        }
     }
 
     @Override

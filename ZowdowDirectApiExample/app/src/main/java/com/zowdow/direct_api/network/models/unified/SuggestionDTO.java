@@ -19,18 +19,16 @@ import java.util.List;
  * Represents Suggestion
  */
 public class SuggestionDTO implements Parcelable {
-    @SerializedName("id") private            int       mId;
-    @SerializedName("cardCount") private     int       mCardCount;
-    @SerializedName("suggRank") private      int       mSuggRank;
+    @SerializedName("id") private int mId;
+    @SerializedName("cardCount") private int mCardCount;
+    @SerializedName("suggRank") private int mSuggRank;
     @SerializedName("suggestion") private String mSuggestion;
     @SerializedName("queryFragment") private String mQueryFragment;
     @SerializedName("cards") private JsonArray mCards;
     private String mRid;
     private String mCarouselType;
     private String mCardFormat;
-    private                                  long      mTtl;
-
-    public SuggestionDTO() {}
+    private long mTtl;
 
     public int getId() {
         return mId;
@@ -38,14 +36,6 @@ public class SuggestionDTO implements Parcelable {
 
     public void setId(int id) {
         mId = id;
-    }
-
-    public String getQueryFragment() {
-        return mQueryFragment;
-    }
-
-    public void setQueryFragment(String queryFragment) {
-        mQueryFragment = queryFragment;
     }
 
     public String getSuggestion() {
@@ -56,61 +46,8 @@ public class SuggestionDTO implements Parcelable {
         mSuggestion = suggestion;
     }
 
-    public int getSuggRank() {
-        return mSuggRank;
-    }
-
-    public void setSuggRank(int suggRank) {
-        mSuggRank = suggRank;
-    }
-
-    public int getCardCount() {
-        return mCardCount;
-    }
-
-    public void setCardCount(int cardCount) {
-        mCardCount = cardCount;
-    }
-
     public JsonArray getCards() {
         return mCards;
-    }
-
-    public void setCards(JsonArray cards) {
-        mCards = cards;
-    }
-
-    public String getRid() {
-        return mRid;
-    }
-
-    public void setRid(String rid) {
-        mRid = rid;
-    }
-
-    public long getTtl() {
-        return mTtl;
-    }
-
-    public void setTtl(long ttl) {
-        mTtl = ttl;
-    }
-
-    public String getCarouselType() {
-        return mCarouselType;
-    }
-
-    public void setCarouselType(String carouselType) {
-        this.mCarouselType = carouselType;
-    }
-
-    @CardFormat
-    public String getCardFormat() {
-        return mCardFormat;
-    }
-
-    public void setCardFormat(String cardFormat) {
-        this.mCardFormat = cardFormat;
     }
 
     @Override

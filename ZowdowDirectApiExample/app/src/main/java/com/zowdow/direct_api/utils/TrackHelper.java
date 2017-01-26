@@ -1,4 +1,4 @@
-package com.zowdow.direct_api.utils.helpers.tracking;
+package com.zowdow.direct_api.utils;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -22,12 +22,12 @@ public class TrackHelper {
         unifiedApiService.performTracking(impressionUrl).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-                Log.d(TAG, "Tracked impression for " + impressionUrl + " successfully!");
+                Log.d(TAG, "Tracked impression successfully!");
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Log.e(TAG, "Tracked impression for " + impressionUrl + " with failure");
+                Log.e(TAG, "Tracked impression with failure");
             }
         });
     }
@@ -36,12 +36,12 @@ public class TrackHelper {
         unifiedApiService.performTracking(clickUrl).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-                Log.d(TAG, "Tracked clicking " + clickUrl + " successfully!");
+                Log.d(TAG, "Tracked clicking successfully!");
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Log.e(TAG, "Tracked clicking " + clickUrl + " with failure");
+                Log.e(TAG, "Tracked clicking with failure");
             }
         });
     }

@@ -13,15 +13,7 @@ public class InitResponse {
         return mMeta;
     }
 
-    public void setMeta(MetaDTO meta) {
-        mMeta = meta;
-    }
-
     public HashMap<String, Object> getRecords() {
         return mRecords;
-    }
-
-    public void setRecords(HashMap<String, Object> records) {
-        mRecords = records;
     }
 }

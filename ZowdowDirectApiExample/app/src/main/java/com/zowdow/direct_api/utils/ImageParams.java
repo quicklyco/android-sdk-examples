@@ -1,15 +1,14 @@
-package com.zowdow.direct_api.utils.helpers;
+package com.zowdow.direct_api.utils;
 
 import android.content.res.Resources;
 
 import com.zowdow.direct_api.network.models.unified.suggestions.Card;
-import com.zowdow.direct_api.utils.ViewUtils;
 import com.zowdow.direct_api.utils.constants.CardFormats;
 
 public class ImageParams {
-    public  String path;
-    public  int    width;
-    public  int    height;
+    public String path;
+    public int width;
+    public int height;
 
     public ImageParams(String path, int width, int height) {
         this.path = path;

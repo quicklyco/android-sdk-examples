@@ -60,7 +60,7 @@ public class BasicIntegrationDemoActivity extends AppCompatActivity {
 
             }
         });
-        mLoaderConfig = new LoaderConfiguration().cardFormat(Zowdow.CARD_FORMAT_INLINE);
+        mLoaderConfig = new LoaderConfiguration().cardFormats(Zowdow.CARD_FORMAT_INLINE);
     }
 
     private void setupEditText() {
@@ -82,7 +82,7 @@ public class BasicIntegrationDemoActivity extends AppCompatActivity {
     private void setupListView() {
         mListView = (ListView) findViewById(R.id.listView);
         ZowdowAdapter adapter = mZowdow.createAdapter(null);
-        adapter.setCarouselType(Zowdow.CAROUSEL_LINEAR_FULL);
+        adapter.setCarouselType(Zowdow.CAROUSEL_STREAM);
         adapter.setOnSuggestionClickListener(new OnSuggestionClickListener() {
             @Override
             public void onSuggestionClick(String suggestion) {

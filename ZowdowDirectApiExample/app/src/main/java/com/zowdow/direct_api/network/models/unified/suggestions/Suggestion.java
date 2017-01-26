@@ -150,16 +150,6 @@ public class Suggestion implements SuggestionData {
         return mCardFormat;
     }
 
-    /**
-     * Is suggestions text equals to other's suggestion text
-     *
-     * @param other Suggestion to compare with
-     * @return true if suggestion is equals to other's suggestion
-     */
-    public boolean equalsTo(Suggestion other) {
-        return other != null && mSuggestion.equals(other.getSuggestion());
-    }
-
     @Override
     public String toString() {
         return mSuggestion;
@@ -174,44 +164,5 @@ public class Suggestion implements SuggestionData {
         boolean result = mTracked;
         mTracked = true;
         return result;
-    }
-
-    /**
-     * Set values from another suggestion
-     *
-     * @param other     Suggestion to copy values from
-     * @param cardLimit Max card count
-     */
-    public void update(final Suggestion other, final int cardLimit) {
-        setId(other.getId());
-        setRid(other.getRid());
-        setSuggRank(other.getSuggRank());
-        setQueryFragment(other.getQueryFragment());
-        setSuggestion(other.getSuggestion());
-
-        for (int i = 0; i < getCards().size(); i++) {
-            Iterator<Card> it = other.getCards().iterator();
-            while (it.hasNext()) {
-                Card newCard = it.next();
-                if (getCards().get(i).getId().equals(newCard.getId())) {
-                    if (!getCards().get(i).getRid().equals(newCard.getRid())) {
-                        getCards().get(i).update(newCard);
-                    }
-                    it.remove();
-                    break;
-                }
-            }
-        }
-        if (cardLimit == 0) {
-            getCards().clear();
-            return;
-        }
-        if (getCards().size() + other.getCards().size() <= cardLimit) {
-            getCards().addAll(other.getCards());
-        } else {
-            for (int i = 0; i < cardLimit - getCards().size(); i++) {
-                getCards().add(other.getCards().get(i));
-            }
-        }
     }
 }

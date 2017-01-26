@@ -18,15 +18,7 @@ public class ActionDTO {
         return mActionTarget;
     }
 
-    public void setActionTarget(String actionTarget) {
-        mActionTarget = actionTarget;
-    }
-
     public String getActionType() {
         return mActionType;
-    }
-
-    public void setActionType(String actionType) {
-        mActionType = actionType;
     }
 }
