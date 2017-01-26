@@ -17,10 +17,7 @@ More detailed info about their usage is described below, right after Architectur
 
 ## Architecture
 
-The architectural pattern of this app is a pretty classical implementation of Model-View-Presenter architecture.
-Without Domain/Repository layers for now, as suggestions caching is not implemented yet.
-
-The project consists of 5 key packages on the surface:
+The project consists of 3 key packages on the surface:
 
 *   **injection** consists of Dagger modules and components. For now, there is a single module
 called `NetworkModule` and it provides the access to Retrofit-service classes that represent request calls
@@ -30,13 +27,14 @@ its' architecture clean. `NetworkComponent` is initialized inside `ZowdowDirectA
 *   **network** consists of Retrofit-service classes, which purpose was described above & also entity-classes, which
 mostly represent suggestions, cards & ad listings.
 
-*   **presenters** package consists of presenters that implement business-logic for the activities that need it & networking operations, results of which
-may perform UI-changes.
+*   **ui** is for Activity classes, adapters, custom views & interfaces with callback-methods.
+There only activity that plays such an important role in application's workflow is `HomeDemoActivity`.
+The key events like Zowdow API initialization & suggestions loading are happening inside this class.
+`WebViewActivity` and `VideoActivity` just represent the cards' content in master-detail flow: it may be either web-
+and video-content.
 
-*   **ui** is for Activity classes, adapters, custom views & interfaces with callback-methods. Each of these
- are categorized by sections to which they belong.
-
-*   **utils** contains constants-interfaces, utility-classes for runtime permissions checks, connectivity state observations, requests parameters collection & formatting and other useful stuff.
+*   **utils** contains constants-interfaces, simple utility-classes for geolocation, runtime permissions checks, connectivity state observations, requests parameters collection & formatting
+and other useful stuff.
 
 ## Interaction with Initialization API
 
@@ -98,9 +96,9 @@ The request calls to Init API is provided by `Observable<InitResponse> init(@Que
 method inside `InitApiService` interface. FYI: in the following example app RxJava wrapper is used for
 Retrofit-calls.
 
-The basic map of `queryParams` is formed in `RequestUtils` class by `createQueryMap` method.
+The basic map of `queryParams` is formed in `QueryUtils` class by `createQueryMap` method.
 Basically, this map includes key-value pairs, declared in mentioned utils class, but it may be extended by another ones
-for Unified API needs, which you may find in `Map<String, Object> HomeDemoPresenter`'s `getDefaultUnifiedQueryMap` method.
+for Unified API needs, which you may find in `Map<String, Object> QueryUtils`'s `createQueryMapForUnifiedApi(Context context, String searchQuery, String currentCardFormat) ` method.
 
 It's quite important to notice that in this app we use hardcoded values for the next keys:
 
@@ -110,24 +108,24 @@ For now it's `com.searchmaster.searchapp`.
 Same for **app_code** parameter value.
 *   **app_ver:** we decided to enable AdMarketPlace cards for this app by setting the value of this parameter to 1.
 
-`InitApiService` usage can be reviewed in `HomeDemoPresenter` class. This code snippet demonstrates it clearly:
+`InitApiService` usage can be reviewed in `HomeDemoActivity` class. This code snippet demonstrates it clearly:
 
 ```
 public void initializeZowdowApi() {
-    Map<String, Object> initQueryMap = RequestUtils.createQueryMap(context);
-    initQueryMap.put(QueryKeys.DEVICE_ID, RequestUtils.getDeviceId(context));
+    LocationManager.get().start(this);
+    Map<String, Object> initQueryMap = QueryUtils.createQueryMap(this);
     if (apiInitialized) {
         onApiInitialized();
+        restoreSuggestions();
     } else {
         initApiSubscription = initApiService.init(initQueryMap)
-        .subscribeOn(Schedulers.io())
-        .map(InitResponse::getRecords)
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(records -> {
-            Log.d(TAG, "Initialization was performed successfully!");
-        }, throwable -> {
-            Log.e(TAG, "Something went wrong during initialization: " + throwable.getMessage());
-        }, this::onApiInitialized);
+            .subscribeOn(Schedulers.io())
+            .map(InitResponse::getRecords)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(records -> {
+                Log.d(TAG, "Initialization was performed successfully!");
+                apiInitialized = true;
+            }, throwable -> Log.e(TAG, "Something went wrong during initialization: " + throwable.getMessage()), this::onApiInitialized);
     }
 }
 ```
@@ -150,7 +148,7 @@ By the way, all API endpoints constants are available in `network/ApiBaseUrls` i
 
 **Consuming Unified API**
 
-The example of network call to Unified API may be found in `HomeDemoPresenter` class.
+The example of network call to Unified API may be found in `HomeDemoActivity` class.
 
 This method retrieves suggestions response and converts its' contents into
 the list full of cards with the parameters we need to render cards in the suggestions' carousels (lists).
@@ -158,12 +156,13 @@ If the server response is successful we are switching to the UI thread and passi
 into suggestions list view's adapter.
 
 ```
-private void requestSuggestionsFromServer(Map<String, Object> queryMap) {
+    private void findSuggestions(String searchKeyWord) {
+        Map<String, Object> queryMap = QueryUtils.createQueryMapForUnifiedApi(this, searchKeyWord, currentCardFormat);
         unifiedApiSubscription = unifiedApiService.loadSuggestions(queryMap)
                 .subscribeOn(Schedulers.io())
                 .cache()
                 .subscribe(this::processSuggestionsResponse, throwable -> {
-                    view.onSuggestionsLoadingFailed();
+                    Toast.makeText(HomeDemoActivity.this, "Could not load suggestions", Toast.LENGTH_SHORT).show();
                     Log.e(TAG, "Could not load suggestions: " + throwable.getMessage());
                 });
     }
@@ -174,15 +173,13 @@ private void requestSuggestionsFromServer(Map<String, Object> queryMap) {
                 .subscribeOn(Schedulers.io())
                 .flatMapIterable(BaseResponse::getRecords) // converts response wrapper into an iterable list of suggestions
                 .map(suggestionItem -> // performs suggestion deserialization
-                    suggestionItem
-                            .getSuggestion()
-                            .toSuggestion(rId, DEFAULT_CAROUSEL_TYPE, currentCardFormat)
+                        suggestionItem
+                                .getSuggestion()
+                                .toSuggestion(rId, DEFAULT_CAROUSEL_TYPE, currentCardFormat)
                 )
                 .toList()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(suggestions -> {
-                    view.onSuggestionsLoaded(suggestions);
-                }, throwable -> {
+                .subscribe(this::onSuggestionsLoaded, throwable -> {
                     Log.e(TAG, "Could not load suggestions: " + throwable.getMessage());
                 });
     }
@@ -208,7 +205,7 @@ All card formats are declared in the interface `utils/constants/CardFormats`.
 
 We use `clickUrl` and `impressionUrl` field values for cards interaction tracking.
 The first one for click events, and the another one is for card appearance events.
-Impression events are processed directly in `ZowdowImageView` class.
+Impression events are processed directly in `CardImageView` class.
 
 ## Contact
 

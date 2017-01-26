@@ -81,6 +81,12 @@ public class HomeDemoActivity extends AppCompatActivity {
         initializeZowdowApi();
     }
 
+    /**
+     * Sets an adapter for suggestions' list view. Each suggestion consists of cards array that's being
+     * rendered inside the another nested adapter.
+     * @see SuggestionsAdapter
+     * @see com.zowdow.direct_api.ui.adapters.CardsAdapter
+     */
     private void setupSuggestionsListView() {
         suggestionsAdapter = new SuggestionsAdapter(this, new ArrayList<>(), this::onCardClicked);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -93,6 +99,11 @@ public class HomeDemoActivity extends AppCompatActivity {
         super.onStart();
     }
 
+    /**
+     * Handles card click event (for the cards with web-content only)
+     * @param webUrl
+     * @param suggestionTitle
+     */
     private void onCardClicked(String webUrl, String suggestionTitle) {
         Intent webIntent = new Intent(this, WebViewActivity.class);
         webIntent.putExtra(ExtraKeys.EXTRA_ARTICLE_TITLE, suggestionTitle);
@@ -105,6 +116,11 @@ public class HomeDemoActivity extends AppCompatActivity {
         networkComponent.inject(this);
     }
 
+    /**
+     * Initializes Zowdow API in order to proceed with interacting with Unified API.
+     * If the device was previously rotated and the activity was recreated there is no need
+     * to authorize with Init API again.
+     */
     private void initializeZowdowApi() {
         LocationManager.get().start(this);
         Map<String, Object> initQueryMap = QueryUtils.createQueryMap(this);
@@ -123,6 +139,12 @@ public class HomeDemoActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * This method is invoked when Init API is successfully initialized.
+     * Right after it happened, keyword text field gets enabled, and set to
+     * text change events tracking in order to load suggestions for the defined keyword
+     * instantly.
+     */
     public void onApiInitialized() {
         suggestionQueryEditText.setEnabled(true);
         suggestionQueryEditText.addTextChangedListener(new TextWatcher() {
@@ -141,12 +163,19 @@ public class HomeDemoActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Restores suggestions list after activity rotation. Basically it recalls the request.
+     */
     private void restoreSuggestions() {
         if (!currentSearchKeyWord.isEmpty()) {
             findSuggestions(currentSearchKeyWord);
         }
     }
 
+    /**
+     * Looks the available suggestions up by calling Unified API.
+     * @param searchKeyWord
+     */
     private void findSuggestions(String searchKeyWord) {
         Map<String, Object> queryMap = QueryUtils.createQueryMapForUnifiedApi(this, searchKeyWord, currentCardFormat);
         unifiedApiSubscription = unifiedApiService.loadSuggestions(queryMap)
@@ -158,6 +187,10 @@ public class HomeDemoActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Processes retrieved raw suggestions into listview's adapter-compatible format.
+     * @param suggestionsResponse
+     */
     private void processSuggestionsResponse(BaseResponse<UnifiedDTO> suggestionsResponse) {
         final String rId = suggestionsResponse.getMeta().getRid();
         suggestionsSubscription = Observable.just(suggestionsResponse)
@@ -175,6 +208,10 @@ public class HomeDemoActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Invoked when suggestions are retrieved from Unified API.
+     * @param suggestions
+     */
     public void onSuggestionsLoaded(List<Suggestion> suggestions) {
         suggestionsAdapter.setSuggestions(suggestions);
         if (suggestions != null && !suggestions.isEmpty()) {
@@ -218,6 +255,11 @@ public class HomeDemoActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Invoked when the another card format has been chosen by user at the top panel.
+     * All suggestions and cards for the given keyword are requested again.
+     * @param newCardFormat
+     */
     private void onCardFormatChanged(@CardFormat String newCardFormat) {
         this.currentCardFormat = newCardFormat;
         findSuggestions(currentSearchKeyWord);
