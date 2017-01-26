@@ -21,7 +21,7 @@
         android:name=".ZowdowDirectApplication"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.zowdow.direct_api.ui.sections.home.HomeDemoActivity"
+            android:name="com.zowdow.direct_api.ui.HomeDemoActivity"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,13 +31,13 @@
         </activity>
 
         <activity
-            android:name=".ui.sections.web.WebViewActivity"
-            android:parentActivityName=".ui.sections.home.HomeDemoActivity"
+            android:name=".ui.WebViewActivity"
+            android:parentActivityName=".ui.HomeDemoActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>
 
         <activity
-            android:name=".ui.sections.media.VideoActivity"
-            android:parentActivityName=".ui.sections.home.HomeDemoActivity"
+            android:name=".ui.VideoActivity"
+            android:parentActivityName=".ui.HomeDemoActivity"
             android:configChanges="orientation|screenSize" />
     </application>
 

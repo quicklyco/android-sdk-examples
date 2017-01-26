@@ -15,9 +15,7 @@ import javax.inject.Inject;
  * Customized ImageView class which provides interaction with
  * Zowdow tracking mechanism out-of-the-box.
  */
-public class ZowdowImageView extends ImageView {
-    private static final String TAG = ZowdowImageView.class.getSimpleName();
-
+public class CardImageView extends ImageView {
     private Card currentCard;
 
     @Inject TrackHelper trackHelper;
@@ -26,15 +24,15 @@ public class ZowdowImageView extends ImageView {
         ZowdowDirectApplication.getNetworkComponent().inject(this);
     }
 
-    public ZowdowImageView(Context context) {
+    public CardImageView(Context context) {
         super(context);
     }
 
-    public ZowdowImageView(Context context, AttributeSet attrs) {
+    public CardImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public ZowdowImageView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public CardImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 

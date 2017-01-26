@@ -13,7 +13,7 @@ import com.zowdow.direct_api.ZowdowDirectApplication;
 import com.zowdow.direct_api.network.models.unified.suggestions.Card;
 import com.zowdow.direct_api.network.models.unified.suggestions.Suggestion;
 import com.zowdow.direct_api.ui.views.DividerItemDecoration;
-import com.zowdow.direct_api.ui.views.ZowdowImageView;
+import com.zowdow.direct_api.ui.views.CardImageView;
 import com.zowdow.direct_api.utils.ViewUtils;
 import com.zowdow.direct_api.utils.ImageParams;
 
@@ -96,7 +96,7 @@ public class SuggestionViewHolder extends RecyclerView.ViewHolder {
                 for (int i = firstVisibleItemPosition; i <= lastVisibleItemPosition; i++) {
                     View container = recyclerView.getChildAt(i);
                     if (container != null) {
-                        ZowdowImageView image = (ZowdowImageView) container.findViewById(R.id.card_image_view);
+                        CardImageView image = (CardImageView) container.findViewById(R.id.card_image_view);
                         image.sendTrackInfo();
                     }
                 }

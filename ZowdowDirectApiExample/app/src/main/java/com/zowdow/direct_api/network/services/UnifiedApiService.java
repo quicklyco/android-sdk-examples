@@ -1,6 +1,6 @@
 package com.zowdow.direct_api.network.services;
 
-import com.zowdow.direct_api.network.models.abs.BaseResponse;
+import com.zowdow.direct_api.network.models.base.BaseResponse;
 import com.zowdow.direct_api.network.models.unified.UnifiedDTO;
 
 import java.util.Map;

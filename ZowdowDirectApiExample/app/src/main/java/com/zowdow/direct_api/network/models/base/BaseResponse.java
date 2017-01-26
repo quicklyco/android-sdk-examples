@@ -1,4 +1,4 @@
-package com.zowdow.direct_api.network.models.abs;
+package com.zowdow.direct_api.network.models.base;
 
 import com.google.gson.annotations.SerializedName;
 import com.zowdow.direct_api.network.models.unified.MetaDTO;

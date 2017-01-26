@@ -1,4 +1,4 @@
-package com.zowdow.direct_api.ui.sections.web;
+package com.zowdow.direct_api.ui;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;

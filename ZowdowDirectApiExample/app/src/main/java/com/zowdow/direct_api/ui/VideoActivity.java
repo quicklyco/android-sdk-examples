@@ -1,4 +1,4 @@
-package com.zowdow.direct_api.ui.sections.media;
+package com.zowdow.direct_api.ui;
 
 import android.content.Intent;
 import android.graphics.Color;

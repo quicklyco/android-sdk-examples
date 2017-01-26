@@ -10,7 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.DrawableTypeRequest;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.target.ImageViewTarget;
 import com.zowdow.direct_api.R;
@@ -18,8 +20,8 @@ import com.zowdow.direct_api.ZowdowDirectApplication;
 import com.zowdow.direct_api.network.models.unified.ActionDTO;
 import com.zowdow.direct_api.network.models.unified.suggestions.Card;
 import com.zowdow.direct_api.network.models.unified.suggestions.Suggestion;
-import com.zowdow.direct_api.ui.sections.media.VideoActivity;
-import com.zowdow.direct_api.ui.views.ZowdowImageView;
+import com.zowdow.direct_api.ui.VideoActivity;
+import com.zowdow.direct_api.ui.views.CardImageView;
 import com.zowdow.direct_api.utils.ViewUtils;
 import com.zowdow.direct_api.utils.constants.ActionTypes;
 import com.zowdow.direct_api.utils.ImageParams;
@@ -70,7 +72,15 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardViewHold
     public void onBindViewHolder(CardViewHolder holder, int position) {
         Card currentCard = cards.get(position);
         ImageParams imageParamsForCard = ImageParams.create(currentCard);
-        Glide.with(context).load(imageParamsForCard.path)
+
+        DrawableTypeRequest<String> glideRequest = Glide.with(context).load(imageParamsForCard.path);
+
+        if (currentCard.isGif()) {
+            glideRequest.asGif().diskCacheStrategy(DiskCacheStrategy.SOURCE);
+        } else {
+            glideRequest.asBitmap().fitCenter();
+        }
+        glideRequest
                 .override(imageParamsForCard.width, imageParamsForCard.height)
                 .into(new ImageViewTarget<GlideDrawable>(holder.cardImageView) {
                     @Override
@@ -139,7 +149,7 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardViewHold
 
     static class CardViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.card_image_view)
-        ZowdowImageView cardImageView;
+        CardImageView cardImageView;
         @BindView(R.id.card_root_view)
         CardView cardRootView;
 

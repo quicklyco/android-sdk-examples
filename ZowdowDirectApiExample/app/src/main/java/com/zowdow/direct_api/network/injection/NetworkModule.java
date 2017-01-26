@@ -1,4 +1,4 @@
-package com.zowdow.direct_api.injection.modules;
+package com.zowdow.direct_api.network.injection;
 
 import com.google.gson.GsonBuilder;
 import com.zowdow.direct_api.network.ApiBaseUrls;

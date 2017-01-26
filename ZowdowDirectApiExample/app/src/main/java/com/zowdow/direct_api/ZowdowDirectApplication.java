@@ -2,8 +2,8 @@ package com.zowdow.direct_api;
 
 import android.app.Application;
 
-import com.zowdow.direct_api.injection.components.DaggerNetworkComponent;
-import com.zowdow.direct_api.injection.components.NetworkComponent;
+import com.zowdow.direct_api.network.injection.DaggerNetworkComponent;
+import com.zowdow.direct_api.network.injection.NetworkComponent;
 
 public class ZowdowDirectApplication extends Application {
     private static NetworkComponent networkComponent;

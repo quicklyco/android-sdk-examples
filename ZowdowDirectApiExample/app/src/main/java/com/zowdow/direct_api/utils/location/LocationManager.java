@@ -3,28 +3,24 @@ package com.zowdow.direct_api.utils.location;
 import android.content.Context;
 import android.location.Location;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
 import com.zowdow.direct_api.utils.PermissionsUtils;
 
-public enum LocationMgr {
-    Instance;
+public class LocationManager {
+    private static LocationManager locationManagerInstance;
 
     private int mClients = 0;
 
     private AndroidLocation mAndroidLocation;
 
-    LocationMgr() {
+    private LocationManager() {
         mAndroidLocation = AndroidLocation.getInstance();
     }
 
-    /**
-     * Get instance of LocationMgr
-     *
-     * @return LocationMgr Instance
-     */
-    public static LocationMgr get() {
-        return Instance;
+    public static synchronized LocationManager get() {
+        if (locationManagerInstance == null) {
+            locationManagerInstance = new LocationManager();
+        }
+        return locationManagerInstance;
     }
 
     /**
@@ -75,13 +71,5 @@ public enum LocationMgr {
         }
 
         return mAndroidLocation.getLocation(context);
-    }
-
-    public static double encryptCoord(double coord) {
-        return coord * 1000000 + 123456;
-    }
-
-    public static double decryptCoord(double coord) {
-        return (coord - 123456) * 1000000;
     }
 }

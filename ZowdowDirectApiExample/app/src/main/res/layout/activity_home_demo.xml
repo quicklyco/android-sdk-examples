@@ -5,7 +5,7 @@
     android:id="@+id/activity_home_demo"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.zowdow.direct_api.ui.sections.home.HomeDemoActivity">
+    tools:context="com.zowdow.direct_api.ui.HomeDemoActivity">
     <android.support.design.widget.TextInputLayout
         android:layout_marginTop="12dp"
         android:layout_marginLeft="12dp"

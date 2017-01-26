@@ -5,9 +5,10 @@ import android.location.Location;
 import android.os.Build;
 import android.provider.Settings;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 import com.zowdow.direct_api.utils.constants.QueryKeys;
-import com.zowdow.direct_api.utils.location.LocationMgr;
+import com.zowdow.direct_api.utils.location.LocationManager;
 
 import static com.zowdow.direct_api.utils.constants.QueryKeys.*;
 
@@ -64,7 +65,8 @@ public class QueryUtils {
             sQueryMap.put(SDK_VER, MOCK_SDK_VERSION);
         }
 
-        Location location = LocationMgr.get().getLocation(context);
+        Location location = LocationManager.get().getLocation(context);
+        Log.d("QueryUtils", "Location: " + location);
         if (location != null) {
             sQueryMap.put(LAT, location.getLatitude());
             sQueryMap.put(LONG, location.getLongitude());

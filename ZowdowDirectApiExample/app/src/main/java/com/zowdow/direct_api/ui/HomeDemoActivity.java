@@ -1,4 +1,4 @@
-package com.zowdow.direct_api.ui.sections.home;
+package com.zowdow.direct_api.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,8 +17,8 @@ import android.widget.Toast;
 
 import com.zowdow.direct_api.R;
 import com.zowdow.direct_api.ZowdowDirectApplication;
-import com.zowdow.direct_api.injection.components.NetworkComponent;
-import com.zowdow.direct_api.network.models.abs.BaseResponse;
+import com.zowdow.direct_api.network.injection.NetworkComponent;
+import com.zowdow.direct_api.network.models.base.BaseResponse;
 import com.zowdow.direct_api.network.models.init.InitResponse;
 import com.zowdow.direct_api.network.models.unified.UnifiedDTO;
 import com.zowdow.direct_api.network.models.unified.suggestions.CardFormat;
@@ -26,10 +26,10 @@ import com.zowdow.direct_api.network.models.unified.suggestions.Suggestion;
 import com.zowdow.direct_api.network.services.InitApiService;
 import com.zowdow.direct_api.network.services.UnifiedApiService;
 import com.zowdow.direct_api.ui.adapters.SuggestionsAdapter;
-import com.zowdow.direct_api.ui.sections.web.WebViewActivity;
 import com.zowdow.direct_api.utils.QueryUtils;
 import com.zowdow.direct_api.utils.constants.CardFormats;
 import com.zowdow.direct_api.utils.constants.ExtraKeys;
+import com.zowdow.direct_api.utils.location.LocationManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,6 +88,11 @@ public class HomeDemoActivity extends AppCompatActivity {
         suggestionsListView.setAdapter(suggestionsAdapter);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
     private void onCardClicked(String webUrl, String suggestionTitle) {
         Intent webIntent = new Intent(this, WebViewActivity.class);
         webIntent.putExtra(ExtraKeys.EXTRA_ARTICLE_TITLE, suggestionTitle);
@@ -101,6 +106,7 @@ public class HomeDemoActivity extends AppCompatActivity {
     }
 
     private void initializeZowdowApi() {
+        LocationManager.get().start(this);
         Map<String, Object> initQueryMap = QueryUtils.createQueryMap(this);
         if (apiInitialized) {
             onApiInitialized();
@@ -215,6 +221,12 @@ public class HomeDemoActivity extends AppCompatActivity {
     private void onCardFormatChanged(@CardFormat String newCardFormat) {
         this.currentCardFormat = newCardFormat;
         findSuggestions(currentSearchKeyWord);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        LocationManager.get().stop();
     }
 
     @Override

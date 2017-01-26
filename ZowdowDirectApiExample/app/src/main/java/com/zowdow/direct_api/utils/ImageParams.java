@@ -10,7 +10,7 @@ public class ImageParams {
     public int width;
     public int height;
 
-    public ImageParams(String path, int width, int height) {
+    private ImageParams(String path, int width, int height) {
         this.path = path;
         this.width = width;
         this.height = height;

@@ -26,7 +26,7 @@ public class PermissionsUtils {
         return checkPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION);
     }
 
-    public static boolean checkPermission(final Context context, final String permission) {
+    private static boolean checkPermission(final Context context, final String permission) {
         try {
             return ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED;
         } catch (RuntimeException e) {

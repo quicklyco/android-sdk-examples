@@ -69,7 +69,7 @@ class AndroidLocation {
      * @return Last known Location
      */
     @SuppressWarnings("MissingPermission")
-    Location getLastKnownLocation(Context context) {
+    private Location getLastKnownLocation(Context context) {
         if (mLocationManager != null) {
             // Android location
             boolean mIsGPSEnabled = PermissionsUtils.checkFineLocationPermission(context) && mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -83,7 +83,6 @@ class AndroidLocation {
             if (location == null && mIsNetworkEnabled) {
                 location = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             }
-
             return location;
         }
         return null;
@@ -115,7 +114,7 @@ class AndroidLocation {
      * @param context Android Context
      * @return Last received or last known Location
      */
-    public Location getLocation(Context context) {
+    Location getLocation(Context context) {
         return mLocation == null ? getLastKnownLocation(context) : mLocation;
     }
 }
