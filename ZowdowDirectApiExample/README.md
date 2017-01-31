@@ -1,8 +1,8 @@
-# Demo-app with direct Zowdow API integration
+# Demo App with direct Zowdow API integration
 
 © 2015-2017 Zowdow, Inc.
 
-This app is intended to represent the opportunities for Android-developers to interact
+This app is intended to represent the opportunities for Android developers to interact
 with Zowdow API directly, without SDK.
 
 ## Version
@@ -11,13 +11,13 @@ Current version as of January, 23 2017 is 1.0.1.
 
 ## Overview
 
-This application demonstrates pretty basic interaction with Zowdow Auto-Suggest API.
-There are two Zowdow APIs consumed by this client: Initialization & Unified.
-More detailed info about their usage is described below, right after Architecture paragraph.
+This application demonstrates basic interaction with Zowdow AutoSuggest API.
+There are two Zowdow APIs consumed by this client: **Initialization & Unified**.
+More detailed info about their usage is described below, after the Architecture section.
 
 ## Architecture
 
-The project consists of 3 key packages on the surface:
+The project consists of 3 key packages:
 
 *   **injection** consists of Dagger modules and components. For now, there is a single module
 called `NetworkModule` and it provides the access to Retrofit-service classes that represent request calls
@@ -43,7 +43,7 @@ A simple call to get the app defaults for an app identifier string is enough to 
 **URL Structures**
 
 ```
-http://i1.quick1y.com/*/init?app_id=com.kika.test
+http://i1.quick1y.com/*/init?app_id=com.example.test
 ```
 Any version will respond (v1, v4, v5 whatever).
 
@@ -56,7 +56,7 @@ app_id string is required.
 JSON is the response type. It comes with an envelope wrapper, so responses will look like this:
 
 ```
-curl -XGET 'http://i1.quick1y.com/v1/init?app_id=com.kika.test' | python -m json.tool
+curl -XGET 'http://i1.quick1y.com/v1/init?app_id=com.example.test' | python -m json.tool
 
 {
     "_meta": {
@@ -75,7 +75,7 @@ curl -XGET 'http://i1.quick1y.com/v1/init?app_id=com.kika.test' | python -m json
 ```
 **Errors**
 
-No many actual errors -- Most everything else returns 200 with an empty set if there is an error.
+Not many actual errors -- Almost every request else returns 200 with an empty set if there is an error.
 
 JSON format like:
 ```
@@ -90,7 +90,7 @@ JSON format like:
 }
 ```
 
-**Consuming Init API in this demo-app**
+**Consuming Init API in this demo app**
 
 The request calls to Init API is provided by `Observable<InitResponse> init(@QueryMap Map<String, Object> queryMap)`
 method inside `InitApiService` interface. FYI: in the following example app RxJava wrapper is used for
@@ -104,9 +104,7 @@ It's quite important to notice that in this app we use hardcoded values for the 
 
 *   **app_id:** we are using the another demo app package name as a value to ensure that the results will be returned to this client in a proper way.
 For now it's `com.searchmaster.searchapp`.
-*   **app_ver:** we use the another demo app version as a value.
-Same for **app_code** parameter value.
-*   **app_ver:** we decided to enable AdMarketPlace cards for this app by setting the value of this parameter to 1.
+*   **app_ver:** Demo app version as a value.
 
 `InitApiService` usage can be reviewed in `HomeDemoActivity` class. This code snippet demonstrates it clearly:
 
@@ -132,11 +130,10 @@ public void initializeZowdowApi() {
 
 ## Interaction with Unified API ##
 
-Unified API is the key Zowdow API to interact with in order to retrieve and process auto-suggest data.
-In this app's case, it is about search suggestions retrieval by multiple parameters and keyword, defined by user.
+Unified API is the key Zowdow API to interact with in order to retrieve and process autosuggest data.
+In this app's case, it is about search suggestions retrieval by multiple parameters and keywords, defined by developer.
 
-We implemented `UnifiedApiService` which works with Unified API & some tracking events, and
-`AdMarketPlaceService` which loads ad listings for special AdMarketPlace cards and performs their parsing from XML format.
+We implemented `UnifiedApiService` which works with Unified API & some tracking events.
 
 **Base URL for this API**
 
@@ -144,14 +141,14 @@ We implemented `UnifiedApiService` which works with Unified API & some tracking 
 https://u1.quick1y.com/v1/
 ```
 
-By the way, all API endpoints constants are available in `network/ApiBaseUrls` interface.
+All API endpoints constants are available in `network/ApiBaseUrls` interface.
 
 **Consuming Unified API**
 
 The example of network call to Unified API may be found in `HomeDemoActivity` class.
 
 This method retrieves suggestions response and converts its' contents into
-the list full of cards with the parameters we need to render cards in the suggestions' carousels (lists).
+the list full of cards with the parameters we need to render cards in the suggestion carousels (lists).
 If the server response is successful we are switching to the UI thread and passing retrieved and processed suggestions
 into suggestions list view's adapter.
 
@@ -204,7 +201,7 @@ All card formats are declared in the interface `utils/constants/CardFormats`.
 **Tracking**
 
 We use `clickUrl` and `impressionUrl` field values for cards interaction tracking.
-The first one for click events, and the another one is for card appearance events.
+The first one for click events, and the another one is for card appearance events. These URLs must be called during a click or an impression event in order for accurate tracking for monetization.
 Impression events are processed directly in `CardImageView` class.
 
 ## Contact
