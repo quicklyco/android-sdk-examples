@@ -1,6 +1,6 @@
 # Zowdow Auto-Suggest SDK for Android
 
-© 2015-2016 Zowdow, Inc.
+© 2015-2017 Zowdow, Inc.
 
 The Zowdow Auto-Suggest SDK is intended to provide Android application developers with a convenient access to Zowdow services via native APIs.
 
@@ -56,17 +56,29 @@ For example: User types in _**st**_ and the SDK sends _**'s'**_ and then _**'st'
     }
 
     dependencies {
-        compile 'co.zowdow:zowdow-sdk:2.0.99@aar'
+        compile 'co.zowdow:zowdow-sdk:2.0.108@aar'
         compile 'com.android.support:appcompat-v7:+'
         compile 'com.android.support:recyclerview-v7:+'
+        compile 'com.android.support:cardview-v7:+'
 
+        compile 'com.squareup.okhttp:okhttp:2.3.0'
         compile 'com.squareup.retrofit:retrofit:2.0.0-beta2'
         compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'
-        compile 'com.squareup.okhttp:okhttp:2.3.0'
+        compile ('com.squareup.retrofit:converter-simplexml:2.0.0-beta2') {
+                exclude group: 'xpp3', module: 'xpp3'
+                exclude group: 'stax', module: 'stax-api'
+                exclude group: 'stax', module: 'stax'
+        }
+
         // or
-        compile 'com.squareup.okhttp3:okhttp:3.3.1'
-        compile 'com.squareup.retrofit2:retrofit:2.0.2'
-        compile 'com.squareup.retrofit2:converter-gson:2.0.2'
+        compile 'com.squareup.okhttp3:okhttp:3.6.0'
+        compile 'com.squareup.retrofit2:retrofit:2.1.0'
+        compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+        compile ('com.squareup.retrofit2:converter-simplexml:2.1.0') {
+                exclude group: 'xpp3', module: 'xpp3'
+                exclude group: 'stax', module: 'stax-api'
+                exclude group: 'stax', module: 'stax'
+        }
     }
     ```
 
@@ -173,13 +185,25 @@ Use `LoaderConfiguration` to specify suggestions request parameters. Something l
 
 ```java
     loaderConfig = new LoaderConfiguration()
-                    .cardFormat(Zowdow.CARD_FORMAT_INLINE)
+                    .cardFormats(Zowdow.CARD_FORMAT_INLINE)
                     .cardLimit(5)
                     .suggestionLimit(3)
                     .discoveryRow(false);
 ```
 
-`cardFormat` is one of `Zowdow.CARD_FORMAT_INLINE`, `Zowdow.CARD_FORMAT_STAMP`, `Zowdow.CARD_FORMAT_TICKET`
+
+Or even like this if you intend to deal with multiple card formats:
+
+```java
+    loaderConfig = new LoaderConfiguration()
+                    .cardFormats(Zowdow.CARD_FORMAT_INLINE, Zowdow.CARD_FORMAT_STAMP)
+                    .cardLimit(5)
+                    .suggestionLimit(3)
+                    .discoveryRow(false);
+```
+
+`cardFormats` is one of `Zowdow.CARD_FORMAT_INLINE`, `Zowdow.CARD_FORMAT_STAMP`, `Zowdow.CARD_FORMAT_TICKET`, but also may accept multiple card formats
+separated with commas (you can pass them as variable arguments).
 
 Don't forget to call `onStart()`, otherwise you will get only cached results. Upon successful completion your listener will be notified by
 ```java
