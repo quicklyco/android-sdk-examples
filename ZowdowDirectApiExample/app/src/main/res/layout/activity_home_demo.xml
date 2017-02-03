@@ -17,7 +17,7 @@
         android:id="@+id/suggestion_query_layout">
         <android.support.design.widget.TextInputEditText
             android:lines="1"
-            android:singleLine="true"
+            android:maxLines="1"
             android:enabled="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

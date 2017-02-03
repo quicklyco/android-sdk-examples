@@ -3,6 +3,7 @@
 
     <string name="label_keyword">Type your keyword here…</string>
     <string name="label_no_suggestions_placeholder">No suggestions found. Try with another keyword.</string>
+    <string name="label_search">Search</string>
     <string name="warning_no_connection">Can not connect to ZowDow API</string>
 
     <string name="card_type_inline">Inline</string>

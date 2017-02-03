@@ -9,8 +9,8 @@ android {
         applicationId "com.app.zowdow_direct_api_app"
         minSdkVersion 17
         targetSdkVersion 25
-        versionCode 3
-        versionName "1.0.3"
+        versionCode 4
+        versionName "1.0.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -26,9 +26,15 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    lintOptions {
+        disable 'InvalidPackage', 'HardwareIds', 'SetJavaScriptEnabled',
+                'AllowBackup', 'UseCompoundDrawables', 'UnusedResources',
+                'GoogleAppIndexingWarning', 'AlwaysShowAction'
+    }
 }
 
-def supportLibVersion = "25.1.0"
+def supportLibVersion = "25.1.1"
 def daggerVersion = "2.7"
 def rxVersion = "1.2.3"
 def retrofitVersion = "2.1.0"
