@@ -56,7 +56,7 @@ For example: User types in _**st**_ and the SDK sends _**'s'**_ and then _**'st'
     }
 
     dependencies {
-        compile 'co.zowdow:zowdow-sdk:2.0.108@aar'
+        compile 'co.zowdow:zowdow-sdk:2.0.110@aar'
         compile 'com.android.support:appcompat-v7:+'
         compile 'com.android.support:recyclerview-v7:+'
         compile 'com.android.support:cardview-v7:+'
@@ -187,8 +187,7 @@ Use `LoaderConfiguration` to specify suggestions request parameters. Something l
     loaderConfig = new LoaderConfiguration()
                     .cardFormats(Zowdow.CARD_FORMAT_INLINE)
                     .cardLimit(5)
-                    .suggestionLimit(3)
-                    .discoveryRow(false);
+                    .suggestionLimit(3);
 ```
 
 
@@ -198,8 +197,7 @@ Or even like this if you intend to deal with multiple card formats:
     loaderConfig = new LoaderConfiguration()
                     .cardFormats(Zowdow.CARD_FORMAT_INLINE, Zowdow.CARD_FORMAT_STAMP)
                     .cardLimit(5)
-                    .suggestionLimit(3)
-                    .discoveryRow(false);
+                    .suggestionLimit(3);
 ```
 
 `cardFormats` is one of `Zowdow.CARD_FORMAT_INLINE`, `Zowdow.CARD_FORMAT_STAMP`, `Zowdow.CARD_FORMAT_TICKET`, but also may accept multiple card formats

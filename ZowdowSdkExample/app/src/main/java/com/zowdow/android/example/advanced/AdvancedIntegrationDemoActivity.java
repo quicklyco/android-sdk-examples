@@ -25,6 +25,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 import co.zowdow.sdk.android.LoaderConfiguration;
 import co.zowdow.sdk.android.OnCardClickListener;
@@ -149,8 +150,8 @@ public class AdvancedIntegrationDemoActivity extends AppCompatActivity implement
             Iterator<? extends SuggestionData> it = mBingResponse.iterator();
             while (it.hasNext()) {
                 SuggestionData suggestion = it.next();
-                if (mZowDowResponse.get(i).getSuggestion().toLowerCase()
-                        .equals(suggestion.getSuggestion().toLowerCase())) {
+                if (mZowDowResponse.get(i).getSuggestion().toLowerCase(Locale.ENGLISH)
+                        .equals(suggestion.getSuggestion().toLowerCase(Locale.ENGLISH))) {
                     it.remove();
                     break;
                 }
@@ -162,7 +163,7 @@ public class AdvancedIntegrationDemoActivity extends AppCompatActivity implement
         Collections.sort(data, new Comparator<SuggestionData>() {
             @Override
             public int compare(SuggestionData lhs, SuggestionData rhs) {
-                return lhs.getSuggestion().toLowerCase().compareTo(rhs.getSuggestion().toLowerCase());
+                return lhs.getSuggestion().toLowerCase(Locale.ENGLISH).compareTo(rhs.getSuggestion().toLowerCase(Locale.ENGLISH));
             }
         });
         mAdapter.setItems(data);
