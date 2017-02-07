@@ -56,7 +56,7 @@ For example: User types in _**st**_ and the SDK sends _**'s'**_ and then _**'st'
     }
 
     dependencies {
-        compile 'co.zowdow:zowdow-sdk:2.0.110@aar'
+        compile 'co.zowdow:zowdow-sdk:2.0.113@aar'
         compile 'com.android.support:appcompat-v7:+'
         compile 'com.android.support:recyclerview-v7:+'
         compile 'com.android.support:cardview-v7:+'
@@ -254,7 +254,7 @@ To change carousel type use
 ```java
     zowdowAdapter.setCarouselType(int carouselType)
 ```
-where `carouselType` is Zowdow.CAROUSEL_LINEAR_HALF, Zowdow.CAROUSEL_LINEAR_FULL, Zowdow.CAROUSEL_ZOOM or Zowdow.CAROUSEL_ROTARY
+where `carouselType` is Zowdow.CAROUSEL_LINEAR_HALF, Zowdow.CAROUSEL_LINEAR_FULL, Zowdow.CAROUSEL_STACK or Zowdow.CAROUSEL_ROTARY
 
 To change icon use
 ```java

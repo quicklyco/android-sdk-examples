@@ -185,7 +185,7 @@ into suggestions list view's adapter.
 **UI-representation of suggestions**
 
 In the scope of this app we consider `stream` as carousel type. It is a simple list of items
- with horizontal scroll. More carousel types like `mid_stream`, `zoom` or `rotary` are available in SDK.
+ with horizontal scroll. More carousel types like `mid_stream`, `stack` or `rotary` are available in SDK.
 
 `SuggestionsAdapter` performs the suggestions list rendering. Each suggestion row is bound by
 view holder class called `SuggestionViewHolder`, which contains a RecyclerView for cards. `CardsAdapter` instance should be
