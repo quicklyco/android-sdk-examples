@@ -200,7 +200,7 @@ All card formats are declared in the interface `utils/constants/CardFormats`.
 
 **Tracking**
 
-We use `clickUrl` and `impressionUrl` field values for cards interaction tracking. These fields are returned when you pass 'tracking=1' in the query parameter call to the API.
+We use `clickUrl` and `impressionUrl` field values for cards interaction tracking. These fields are returned when you pass `tracking=1` in the query parameter call to the API.
 
 The first one for click events, and the another one is for card appearance events. These URLs must be called during a click or an impression event in order for accurate tracking for monetization.
 
