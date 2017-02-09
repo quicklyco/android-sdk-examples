@@ -51,12 +51,12 @@ For example: User types in _**st**_ and the SDK sends _**'s'**_ and then _**'st'
     ```gradle
     repositories {
         maven {
-            url "http://34.194.30.161:8081/artifactory/libs-release-local"
+            url "http://34.199.187.39:8081/artifactory/libs-release-local"
         }
     }
 
     dependencies {
-        compile 'co.zowdow:zowdow-sdk:2.0.113@aar'
+        compile 'co.zowdow:zowdow-sdk:+@aar'
         compile 'com.android.support:appcompat-v7:+'
         compile 'com.android.support:recyclerview-v7:+'
         compile 'com.android.support:cardview-v7:+'
