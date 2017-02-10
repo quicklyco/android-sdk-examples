@@ -11,14 +11,11 @@ import android.util.Log;
 import com.google.android.gms.ads.identifier.AdvertisingIdClient;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.zowdow.direct_api.utils.constants.QueryKeys;
 import com.zowdow.direct_api.utils.location.LocationManager;
 
 import static com.zowdow.direct_api.utils.constants.QueryKeys.*;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Collections;
@@ -36,7 +33,7 @@ public class QueryUtils {
     private static final int DEFAULT_CARDS_LIMIT = 15;
 
     private static final String DEFAULT_OS              = "Android";
-    private static final String MOCK_PACKAGE_NAME       = "com.searchmaster.searchapp";
+    private static final String MOCK_PACKAGE_NAME       = "com.zowdow.android.example";
     private static final String MOCK_SDK_VERSION        = "2.0.105";
     private static final String MOCK_APP_VERSION        = "1.0.218";
     private static final int    MOCK_APP_CODE           = 218;

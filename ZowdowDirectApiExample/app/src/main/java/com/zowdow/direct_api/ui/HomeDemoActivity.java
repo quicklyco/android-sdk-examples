@@ -1,6 +1,7 @@
 package com.zowdow.direct_api.ui;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -106,10 +107,17 @@ public class HomeDemoActivity extends AppCompatActivity {
      * @param suggestionTitle
      */
     private void onCardClicked(String webUrl, String suggestionTitle) {
-        Intent webIntent = new Intent(this, WebViewActivity.class);
-        webIntent.putExtra(ExtraKeys.EXTRA_ARTICLE_TITLE, suggestionTitle);
-        webIntent.putExtra(ExtraKeys.EXTRA_ARTICLE_URL, webUrl);
-        startActivity(webIntent);
+        Intent webIntent;
+        if (webUrl != null && webUrl.startsWith("http")) {
+            webIntent = new Intent(this, WebViewActivity.class);
+            webIntent.putExtra(ExtraKeys.EXTRA_ARTICLE_TITLE, suggestionTitle);
+            webIntent.putExtra(ExtraKeys.EXTRA_ARTICLE_URL, webUrl);
+            startActivity(webIntent);
+        } else if (webUrl != null && !webUrl.isEmpty()) {
+            webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(webUrl));
+            webIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(webIntent);
+        }
     }
 
     private void initializeApiServices() {

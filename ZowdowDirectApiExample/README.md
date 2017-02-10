@@ -96,14 +96,14 @@ The request calls to Init API is provided by `Observable<InitResponse> init(@Que
 method inside `InitApiService` interface. FYI: in the following example app RxJava wrapper is used for
 Retrofit-calls.
 
-The basic map of `queryParams` is formed in `QueryUtils` class by `createQueryMap` method.
-Basically, this map includes key-value pairs, declared in mentioned utils class, but it may be extended by another ones
+The basic map of `queryParams` is formed in `QueryUtils` class by `getQueryMapObservable` method.
+Basically, the map (which is emitted by `queryMapObservable` returned by the mentioned method) includes key-value pairs, declared in mentioned utils class, but it may be extended by another ones
 for Unified API needs, which you may find in `Map<String, Object> QueryUtils`'s `createQueryMapForUnifiedApi(Context context, String searchQuery, String currentCardFormat) ` method.
 
 It's quite important to notice that in this app we use hardcoded values for the next keys:
 
 *   **app_id:** we are using the another demo app package name as a value to ensure that the results will be returned to this client in a proper way.
-For now it's `com.searchmaster.searchapp`.
+For now it's `com.zowdow.android.example`.
 *   **app_ver:** Demo app version as a value.
 
 `InitApiService` usage can be reviewed in `HomeDemoActivity` class. This code snippet demonstrates it clearly:
@@ -111,19 +111,26 @@ For now it's `com.searchmaster.searchapp`.
 ```
 public void initializeZowdowApi() {
     LocationManager.get().start(this);
-    Map<String, Object> initQueryMap = QueryUtils.createQueryMap(this);
-    if (apiInitialized) {
-        onApiInitialized();
-        restoreSuggestions();
-    } else {
-        initApiSubscription = initApiService.init(initQueryMap)
-            .subscribeOn(Schedulers.io())
-            .map(InitResponse::getRecords)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(records -> {
-                Log.d(TAG, "Initialization was performed successfully!");
-                apiInitialized = true;
-            }, throwable -> Log.e(TAG, "Something went wrong during initialization: " + throwable.getMessage()), this::onApiInitialized);
+            if (apiInitialized) {
+                onApiInitialized();
+                restoreSuggestions();
+            } else {
+                initApiSubscription = QueryUtils.getQueryMapObservable(this)
+                        .subscribeOn(Schedulers.newThread())
+                        .switchMap(new Func1<Map<String, Object>, Observable<InitResponse>>() {
+                            @Override
+                            public Observable<InitResponse> call(Map<String, Object> queryMap) {
+                                return initApiService.init(queryMap);
+                            }
+                        })
+                        .map(InitResponse::getRecords)
+                        .cache()
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(records -> {
+                            Log.d(TAG, "Initialization was performed successfully!");
+                            apiInitialized = true;
+                        }, throwable -> Log.e(TAG, "Something went wrong during initialization: " + throwable.getMessage()), this::onApiInitialized);
+            }
     }
 }
 ```
@@ -154,7 +161,7 @@ into suggestions list view's adapter.
 
 ```
     private void findSuggestions(String searchKeyWord) {
-        Map<String, Object> queryMap = QueryUtils.createQueryMapForUnifiedApi(this, searchKeyWord, currentCardFormat);
+        Map<String, Object> queryMap = QueryUtils.createQueryMapForUnifiedApi(searchKeyWord, currentCardFormat);
         unifiedApiSubscription = unifiedApiService.loadSuggestions(queryMap)
                 .subscribeOn(Schedulers.io())
                 .cache()
