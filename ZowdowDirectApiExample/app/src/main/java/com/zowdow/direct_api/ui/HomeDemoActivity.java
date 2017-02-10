@@ -42,6 +42,7 @@ import butterknife.ButterKnife;
 import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 public class HomeDemoActivity extends AppCompatActivity {
@@ -123,14 +124,20 @@ public class HomeDemoActivity extends AppCompatActivity {
      */
     private void initializeZowdowApi() {
         LocationManager.get().start(this);
-        Map<String, Object> initQueryMap = QueryUtils.createQueryMap(this);
         if (apiInitialized) {
             onApiInitialized();
             restoreSuggestions();
         } else {
-            initApiSubscription = initApiService.init(initQueryMap)
-                    .subscribeOn(Schedulers.io())
+            initApiSubscription = QueryUtils.getQueryMapObservable(this)
+                    .subscribeOn(Schedulers.newThread())
+                    .switchMap(new Func1<Map<String, Object>, Observable<InitResponse>>() {
+                        @Override
+                        public Observable<InitResponse> call(Map<String, Object> queryMap) {
+                            return initApiService.init(queryMap);
+                        }
+                    })
                     .map(InitResponse::getRecords)
+                    .cache()
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(records -> {
                         Log.d(TAG, "Initialization was performed successfully!");
@@ -177,7 +184,7 @@ public class HomeDemoActivity extends AppCompatActivity {
      * @param searchKeyWord
      */
     private void findSuggestions(String searchKeyWord) {
-        Map<String, Object> queryMap = QueryUtils.createQueryMapForUnifiedApi(this, searchKeyWord, currentCardFormat);
+        Map<String, Object> queryMap = QueryUtils.createQueryMapForUnifiedApi(searchKeyWord, currentCardFormat);
         unifiedApiSubscription = unifiedApiService.loadSuggestions(queryMap)
                 .subscribeOn(Schedulers.io())
                 .cache()
