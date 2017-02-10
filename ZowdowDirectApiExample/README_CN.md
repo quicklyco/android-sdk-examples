@@ -20,14 +20,9 @@
 
 *   **network** 由Retrofit-service类（如上面介绍）和Entity类（代表搜索推荐，卡片和广告）构成。
 
-*   **ui** is for Activity类 classes, adapters, custom views & interfaces with callback-methods.
-There only activity that plays such an important role in application's workflow is `HomeDemoActivity`.
-The key events like Zowdow API initialization & suggestions loading are happening inside this class.
-`WebViewActivity` and `VideoActivity` just represent the cards' content in master-detail flow: it may be either web-
-and video-content.
+*   **ui** 被Activity类, adapters, 自定义视图和回调程序。程序工作流程中重要的活动是`HomeDemoActivity`。很多关键的事件比如Zowdow API的初始化和搜索推荐加载都在这个类里发生。`WebViewActivity`和`VideoActivity`代表卡片的内容信息类型，可以是网页，也可以是视频。
 
-*   **utils** contains constants-interfaces, simple utility-classes for geolocation, runtime permissions checks, connectivity state observations, requests parameters collection & formatting
-and other useful stuff.
+*   **utils** 包含常数，简单的地理位置信息获取，运行时间的权限检查，观察网络连接状态，调用参数集合等有用的信息。
 
 ## 与初始化（Initialization）API的交互
 
@@ -70,7 +65,7 @@ curl -XGET 'http://i1.quick1y.com/v1/init?app_id=com.example.test' | python -m j
 
 如果出错，会返回编码200和一个空集合。
 
-JSON format like:
+JSON格式为：
 ```
 {
     "_meta": {
@@ -87,17 +82,14 @@ JSON format like:
 
 Init API调用是由`InitApiService`内的`Observable<InitResponse> init(@QueryMap Map<String, Object> queryMap)`方法实现。注意：Retrofit-calls使用了RxJava封装。
 
-The basic map of `queryParams` is formed in `QueryUtils` class by `createQueryMap` method.
-Basically, this map includes key-value pairs, declared in mentioned utils class, but it may be extended by another ones
-for Unified API needs, which you may find in `Map<String, Object> QueryUtils`'s `createQueryMapForUnifiedApi(Context context, String searchQuery, String currentCardFormat) ` method.
+`queryParams`的map是由`QueryUtils`类的`createQueryMap`方法来生成的。基本上说，这个map包含了由上面提到的utils类定义的键和键值串，但是为了Unified API的需要，它也可以被拓展，由`Map<String, Object> QueryUtils`的`createQueryMapForUnifiedApi(Context context, String searchQuery, String currentCardFormat) `方法实现。
 
-It's quite important to notice that in this app we use hardcoded values for the next keys:
+注意：在此示例程序中，下面的参数是预定义好的固定值。
 
-*   **app_id:** we are using the another demo app package name as a value to ensure that the results will be returned to this client in a proper way.
-For now it's `com.searchmaster.searchapp`.
-*   **app_ver:** Demo app version as a value.
+*   **app_id:** 您的应用id，由我们分配。示例使用的app_id为 `com.searchmaster.searchapp`
+*   **app_ver:** 示例程序版本号
 
-`InitApiService` usage can be reviewed in `HomeDemoActivity` class. This code snippet demonstrates it clearly:
+`InitApiService`的用法可在`HomeDemoActivity`类中查找。如下面的代码片段：
 
 ```
 public void initializeZowdowApi() {
@@ -121,18 +113,17 @@ public void initializeZowdowApi() {
 
 ##与Unified API交互##
 
-Unified API is the key Zowdow API to interact with in order to retrieve and process autosuggest data.
-In this app's case, it is about search suggestions retrieval by multiple parameters and keywords, defined by developer.
+Unified API负责获取和处理搜索推荐数据。在示例程序中，数据通过开发者设置多种参数和关键词来获取。
 
-We implemented `UnifiedApiService` which works with Unified API & some tracking events.
+我们实现了`UnifiedApiService`来展示Unified API的用法和一些追踪记录事件。
 
-**Base URL for this API**
+**API基URL**
 
 ```
 https://u1.quick1y.com/v1/
 ```
 
-All API endpoints constants are available in `network/ApiBaseUrls` interface.
+所有API端点常数都在`network/ApiBaseUrls`中。
 
 **使用Unified API**
 
