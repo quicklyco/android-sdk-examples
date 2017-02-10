@@ -62,7 +62,6 @@ public class QueryUtils {
                 sQueryMap.put(APP_BUILD, MOCK_APP_CODE);
                 sQueryMap.put(APP_ID, MOCK_PACKAGE_NAME);
                 sQueryMap.put(DEVICE_MODEL, deviceModel);
-                sQueryMap.put(ANDROID_ID, Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID));
                 sQueryMap.put(OS, os);
                 sQueryMap.put(TRACKING, getIntFromBooleanValue(true));
                 sQueryMap.put(SCREEN_SCALE, screenDensity);
