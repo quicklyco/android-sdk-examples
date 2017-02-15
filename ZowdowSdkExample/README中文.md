@@ -55,7 +55,7 @@ API的用例：当用户在文字框输入时，用之当做片段、字、词�
     }
 
     dependencies {
-        compile 'co.zowdow:zowdow-sdk:+@aar'
+        compile 'co.zowdow:zowdow-sdk:2.0.+@aar'
         compile 'com.android.support:appcompat-v7:+'
         compile 'com.android.support:recyclerview-v7:+'
         compile 'com.android.support:cardview-v7:+'
