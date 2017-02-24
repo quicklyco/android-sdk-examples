@@ -60,6 +60,8 @@ API的用例：当用户在文字框输入时，用之当做片段、字、词�
         compile 'com.android.support:recyclerview-v7:+'
         compile 'com.android.support:cardview-v7:+'
 
+        compile 'com.google.android.gms:play-services-base:10.0.+'
+
         compile 'com.squareup.retrofit:retrofit:2.0.0-beta2'
         compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'
         compile 'com.squareup.okhttp:okhttp:2.3.0'

@@ -61,6 +61,13 @@ For example: User types in _**st**_ and the SDK sends _**'s'**_ and then _**'st'
         compile 'com.android.support:recyclerview-v7:+'
         compile 'com.android.support:cardview-v7:+'
 
+        /* If you already use at least one of Google Play Services modules, it would be enough to include any
+         different from 'base' module for correct Zowdow SDK integration.
+         We need Google Play Services in order to retrieve an appropriate Android ID of the device
+         on which application with Zowdow SDK integrated is installed.
+         */
+        compile 'com.google.android.gms:play-services-base:10.0.+'
+
         compile 'com.squareup.okhttp:okhttp:2.3.0'
         compile 'com.squareup.retrofit:retrofit:2.0.0-beta2'
         compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'
