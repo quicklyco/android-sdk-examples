@@ -6,7 +6,7 @@ The Zowdow Auto-Suggest SDK is intended to provide Android application developer
 
 ## Version
 
-Current version as of October 26, 2016 is 2.0
+Current version as of March 27, 2017 is 2.0
 
 ## Terminology
 
@@ -56,7 +56,7 @@ For example: User types in _**st**_ and the SDK sends _**'s'**_ and then _**'st'
     }
 
     dependencies {
-        compile 'co.zowdow:zowdow-sdk:2.0.+@aar'
+        compile 'co.zowdow:zowdow-sdk:2.0.133@aar'
         compile 'com.android.support:appcompat-v7:+'
         compile 'com.android.support:recyclerview-v7:+'
         compile 'com.android.support:cardview-v7:+'
