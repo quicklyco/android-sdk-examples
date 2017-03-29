@@ -25,11 +25,11 @@ android {
 
 repositories {
     maven {
-        url "http://34.199.187.39:8081/artifactory/libs-release-local"
+        url "http://34.199.187.39:8081/artifactory/libs-snapshot-local"
     }
 }
 
-def zowdowSdkVersion = "2.0.133"
+def zowdowSdkVersion = "2.0.134"
 def supportLibVersion = "25.3.0"
 def playServicesVersion = "10.0.1"
 

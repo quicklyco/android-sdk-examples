@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -90,7 +91,8 @@ public class AdvancedIntegrationDemoActivity extends AppCompatActivity implement
     }
 
     private void setupZowDow() {
-        Zowdow.initialize(this);
+        String userAgent = getUserAgent();
+        Zowdow.initialize(this, userAgent);
         mZowDow = new Zowdow(this, mZowDowCallback);
         mLoaderConfig = new LoaderConfiguration().cardFormats(Zowdow.CARD_FORMAT_INLINE);
     }
@@ -238,5 +240,9 @@ public class AdvancedIntegrationDemoActivity extends AppCompatActivity implement
             public void onSuggestionsDidFailToLoad(Throwable e) {
             }
         };
+    }
+
+    private String getUserAgent() {
+        return new WebView(this).getSettings().getUserAgentString();
     }
 }

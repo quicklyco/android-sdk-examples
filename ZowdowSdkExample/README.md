@@ -56,7 +56,7 @@ For example: User types in _**st**_ and the SDK sends _**'s'**_ and then _**'st'
     }
 
     dependencies {
-        compile 'co.zowdow:zowdow-sdk:2.0.133@aar'
+        compile 'co.zowdow:zowdow-sdk:2.0.134@aar'
         compile 'com.android.support:appcompat-v7:+'
         compile 'com.android.support:recyclerview-v7:+'
         compile 'com.android.support:cardview-v7:+'
@@ -113,6 +113,27 @@ For example: User types in _**st**_ and the SDK sends _**'s'**_ and then _**'st'
 3.  Before using Zowdow object instance within the application - initialize Zowdow (`com.zowdow.sdk.android.Zowdow`):
     ```java
     Zowdow.initialize(context);
+    ```
+
+    Since version 2.0 of the SDK we send the user-agent string as a parameter required by Zowdow services.
+    You can either rely on the user-agent retrieval functionality implemented in our SDK which looks like this:
+
+    ```java
+    public static String getUserAgent(Context context) {
+        if (context != null && (sUserAgent == null || sUserAgent.isEmpty())) {
+            sUserAgent = new WebView(context).getSettings().getUserAgentString();
+        }
+        return sUserAgent;
+    }
+    ```
+
+    or pass the custom user-agent string previously retrieved by your application, as a second parameter of the overloaded
+    version of Zowdow.initialize method:
+
+    ```java
+    String userAgent = /* your user agent */;
+
+    Zowdow.initialize(context, userAgent);
     ```
 
 4.  For each Fragment or Activity which uses a Zowdow instance - you MUST call **zowdowInstance.onStart()** and **zowdowInstance.onStop()** within Fragment's or Activity's **onStart()** and **onStop()** methods.
