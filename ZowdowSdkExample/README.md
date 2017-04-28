@@ -56,7 +56,7 @@ For example: User types in _**st**_ and the SDK sends _**'s'**_ and then _**'st'
     }
 
     dependencies {
-        compile 'co.zowdow:zowdow-sdk:2.0.134@aar'
+        compile 'co.zowdow:zowdow-sdk:2.0.136@aar'
         compile 'com.android.support:appcompat-v7:+'
         compile 'com.android.support:recyclerview-v7:+'
         compile 'com.android.support:cardview-v7:+'
