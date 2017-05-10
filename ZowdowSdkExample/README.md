@@ -71,21 +71,11 @@ For example: User types in _**st**_ and the SDK sends _**'s'**_ and then _**'st'
         compile 'com.squareup.okhttp:okhttp:2.3.0'
         compile 'com.squareup.retrofit:retrofit:2.0.0-beta2'
         compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'
-        compile ('com.squareup.retrofit:converter-simplexml:2.0.0-beta2') {
-                exclude group: 'xpp3', module: 'xpp3'
-                exclude group: 'stax', module: 'stax-api'
-                exclude group: 'stax', module: 'stax'
-        }
 
         // or
         compile 'com.squareup.okhttp3:okhttp:3.6.0'
         compile 'com.squareup.retrofit2:retrofit:2.1.0'
         compile 'com.squareup.retrofit2:converter-gson:2.1.0'
-        compile ('com.squareup.retrofit2:converter-simplexml:2.1.0') {
-                exclude group: 'xpp3', module: 'xpp3'
-                exclude group: 'stax', module: 'stax-api'
-                exclude group: 'stax', module: 'stax'
-        }
     }
     ```
 
