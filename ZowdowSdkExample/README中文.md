@@ -5,7 +5,7 @@ Zowdow搜索推荐SDK(下文简称ZowdowSDK)提供给Android应用本地化API�
 
 ## 版本
 
-截止2017/3/27，SDK版本为2.0。
+截止2017/5/15，SDK版本为2.0。
 
 ## 术语
 Zowdow是一项搜索推荐服务，因此我们带入以下几个概念：
@@ -55,7 +55,7 @@ API的用例：当用户在文字框输入时，用之当做片段、字、词�
     }
 
     dependencies {
-        compile 'co.zowdow:zowdow-sdk:2.0.137@aar'
+        compile 'co.zowdow:zowdow-sdk:2.0.138@aar'
         compile 'com.android.support:appcompat-v7:+'
         compile 'com.android.support:recyclerview-v7:+'
         compile 'com.android.support:cardview-v7:+'
