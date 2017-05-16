@@ -11,6 +11,8 @@ import android.view.View;
 
 import com.zowdow.android.example.advanced.AdvancedIntegrationDemoActivity;
 import com.zowdow.android.example.basic.BasicIntegrationDemoActivity;
+import com.zowdow.android.example.widget.DiscoveryWidgetActivity;
+import com.zowdow.android.example.widget.DiscoveryWidgetPagerActivity;
 
 public class StartActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_PERMISSIONS = 1;
@@ -42,6 +44,15 @@ public class StartActivity extends AppCompatActivity {
         startAdvancedDemoActivity();
     }
 
+
+    public void clickDiscoveryWidgetIntegration(View view) {
+        startDiscoveryWidgetActivity();
+    }
+
+    public void clickDiscoveryWidgetsPagerIntegration(View view) {
+        startDiscoveryWidgetsActivity();
+    }
+
     private void startZowDowDemoActivity() {
         Intent i = new Intent(this, BasicIntegrationDemoActivity.class);
         startActivity(i);
@@ -49,6 +60,16 @@ public class StartActivity extends AppCompatActivity {
 
     private void startAdvancedDemoActivity() {
         Intent i = new Intent(this, AdvancedIntegrationDemoActivity.class);
+        startActivity(i);
+    }
+
+    private void startDiscoveryWidgetActivity() {
+        Intent i = new Intent(this, DiscoveryWidgetActivity.class);
+        startActivity(i);
+    }
+
+    private void startDiscoveryWidgetsActivity() {
+        Intent i = new Intent(this, DiscoveryWidgetPagerActivity.class);
         startActivity(i);
     }
 }

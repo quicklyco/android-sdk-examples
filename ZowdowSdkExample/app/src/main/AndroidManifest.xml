@@ -23,5 +23,11 @@
 
         <activity android:name=".basic.BasicIntegrationDemoActivity" />
         <activity android:name=".advanced.AdvancedIntegrationDemoActivity" />
+
+        <activity android:name=".widget.DiscoveryWidgetActivity"
+            android:label="@string/app_name" />
+
+        <activity android:name=".widget.DiscoveryWidgetPagerActivity"
+            android:label="@string/app_name" />
     </application>
 </manifest>

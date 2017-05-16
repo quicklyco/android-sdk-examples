@@ -5,7 +5,7 @@ Zowdow搜索推荐SDK(下文简称ZowdowSDK)提供给Android应用本地化API�
 
 ## 版本
 
-截止2017/5/15，SDK版本为2.0。
+截止2017/05/16，SDK版本为2.1。
 
 ## 术语
 Zowdow是一项搜索推荐服务，因此我们带入以下几个概念：
@@ -55,7 +55,7 @@ API的用例：当用户在文字框输入时，用之当做片段、字、词�
     }
 
     dependencies {
-        compile 'co.zowdow:zowdow-sdk:2.0.138@aar'
+        compile 'co.zowdow:zowdow-sdk:+@aar'
         compile 'com.android.support:appcompat-v7:+'
         compile 'com.android.support:recyclerview-v7:+'
         compile 'com.android.support:cardview-v7:+'
@@ -112,6 +112,7 @@ API的用例：当用户在文字框输入时，用之当做片段、字、词�
     import co.zowdow.sdk.android.SuggestionsData;
     import co.zowdow.sdk.android.OnSuggestionClickListener;
     import co.zowdow.sdk.android.OnCardClickListener;
+    import co.zowdow.sdk.android.OnVideoCardClickListener;
     import co.zowdow.sdk.android.Zowdow;
     import co.zowdow.sdk.android.Zowdow.ZowdowCallback;
     import co.zowdow.sdk.android.Zowdow.Params;
@@ -226,6 +227,7 @@ API的用例：当用户在文字框输入时，用之当做片段、字、词�
 ```java
     zowdowAdapter.setSuggestionClickListener(OnSuggestionClickListener listener);
     zowdowAdapter.setCardClickListener(OnCardClickListener listener);
+    zowdowAdapter.setVideoCardClickListener(OnVideoCardClickListener listener);
 
     public interface OnSuggestionClickListener {
         void onSuggestionClick(String suggestion);
@@ -233,6 +235,10 @@ API的用例：当用户在文字框输入时，用之当做片段、字、词�
 
     public interface OnCardClickListener {
         void onCardClick(String suggestion, String cardUrl);
+    }
+    
+    public interface OnVideoCardClickListener {
+        void onVideoCardClick();
     }
 ```
 
@@ -291,6 +297,7 @@ Zowdow.Params包含以下方法：
 ```java
     void setOnSuggestionClickListener(OnSuggestionClickListener onSuggestionClickListener)
     void setOnCardClickListener(OnCardClickListener onCardClickListener)
+    void setOnVideoCardClickListener(OnVideoCardClickListener onVideoCardClickListener)
     void setMaxCardCount(int maxCardCount)
     void setHighlightUserFragment(boolean highlightUserFragment)
     void setHighlightColor(int color)

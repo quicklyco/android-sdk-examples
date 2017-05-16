@@ -6,7 +6,7 @@ The Zowdow Auto-Suggest SDK is intended to provide Android application developer
 
 ## Version
 
-Current version as of May 15, 2017 is 2.0
+Current version as of May 16, 2017 is 2.1
 
 ## Terminology
 
@@ -55,8 +55,10 @@ For example: User types in _**st**_ and the SDK sends _**'s'**_ and then _**'st'
         }
     }
 
+    def playServicesModule = "location"
+
     dependencies {
-        compile 'co.zowdow:zowdow-sdk:2.0.138@aar'
+        compile 'co.zowdow:zowdow-sdk:2.1.15@aar'
         compile 'com.android.support:appcompat-v7:+'
         compile 'com.android.support:recyclerview-v7:+'
         compile 'com.android.support:cardview-v7:+'
@@ -66,12 +68,12 @@ For example: User types in _**st**_ and the SDK sends _**'s'**_ and then _**'st'
          We need Google Play Services in order to retrieve an appropriate Android ID of the device
          on which application with Zowdow SDK integrated is installed.
          */
+
         compile 'com.google.android.gms:play-services-base:10.0.+'
 
-        compile 'com.squareup.okhttp:okhttp:2.3.0'
         compile 'com.squareup.retrofit:retrofit:2.0.0-beta2'
         compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'
-
+        compile 'com.squareup.okhttp:okhttp:2.3.0'
         // or
         compile 'com.squareup.okhttp3:okhttp:3.6.0'
         compile 'com.squareup.retrofit2:retrofit:2.1.0'
@@ -126,6 +128,16 @@ For example: User types in _**st**_ and the SDK sends _**'s'**_ and then _**'st'
     Zowdow.initialize(context, userAgent);
     ```
 
+    As during Zowdow initialization within `Zowdow.initialize(Context)` method we are using the
+    WebView instance in our SDK in order to retrieve the user agent for tracking and monetization purposes
+    it is highly recommended to call the first option of this method (with a context passed only) inside the
+    class derived from `Activity` (or `Fragment`), but not the `Application` class.
+    
+    If initialization of our SDK is either critically essential for you only inside your `Application` class
+    or you application is i.e. the browser-app which uses its own `WebView` instance, in order to prevent
+    some unexpected issues during the app initialization consider using the second variant of `initialize` method by
+    passing your own `userAgent` as a second parameter within the context.
+
 4.  For each Fragment or Activity which uses a Zowdow instance - you MUST call **zowdowInstance.onStart()** and **zowdowInstance.onStop()** within Fragment's or Activity's **onStart()** and **onStop()** methods.
 
 5.  If you use targetSdkVersion=23, you need to ask user for "ACCESS_COARSE_LOCATION" and "ACCESS_FIND_LOCATION" permissions to let ZowdowSDK track current location info.
@@ -139,6 +151,7 @@ For example: User types in _**st**_ and the SDK sends _**'s'**_ and then _**'st'
     import co.zowdow.sdk.android.SuggestionsData;
     import co.zowdow.sdk.android.OnSuggestionClickListener;
     import co.zowdow.sdk.android.OnCardClickListener;
+    import co.zowdow.sdk.android.OnVideoCardClickListener;
     import co.zowdow.sdk.android.Zowdow;
     import co.zowdow.sdk.android.Zowdow.ZowdowCallback;
     import co.zowdow.sdk.android.Zowdow.Params;
@@ -208,7 +221,6 @@ Use `LoaderConfiguration` to specify suggestions request parameters. Something l
                     .suggestionLimit(3);
 ```
 
-
 Or even like this if you intend to deal with multiple card formats:
 
 ```java
@@ -254,6 +266,7 @@ will show founded Zowdow `Suggestions` with `Cards`, the rest ("Hello", "World")
 ```java
     zowdowAdapter.setSuggestionClickListener(OnSuggestionClickListener listener);
     zowdowAdapter.setCardClickListener(OnCardClickListener listener);
+    zowdowAdapter.setOnVideoCardClickListener(OnVideoCardClickListener listener);
 
     public interface OnSuggestionClickListener {
         void onSuggestionClick(String suggestion);
@@ -262,9 +275,17 @@ will show founded Zowdow `Suggestions` with `Cards`, the rest ("Hello", "World")
     public interface OnCardClickListener {
         void onCardClick(String suggestion, String cardUrl);
     }
+    
+    public interface OnVideoCardClickListener {
+        void onVideoCardClick();
+    }
 ```
 
 Sometimes `cardUrl` may contain a deeplink. Just send Intent with ACTION_VIEW to open it with installed app, that can handle it.
+
+Consider listening to a separate `OnVideoCardClickListener`'s `onVideoCardClick()` event when the
+card with Youtube-video content is clicked if you wish to complement the standard, already existing,
+video card click behavior implemented on the SDK side.
 
 ### Configure ZowdowAdapter layout
 
@@ -272,7 +293,7 @@ To change carousel type use
 ```java
     zowdowAdapter.setCarouselType(int carouselType)
 ```
-where `carouselType` is Zowdow.CAROUSEL_LINEAR_HALF, Zowdow.CAROUSEL_LINEAR_FULL, Zowdow.CAROUSEL_STACK or Zowdow.CAROUSEL_ROTARY
+where `carouselType` is Zowdow.CAROUSEL_MID_STREAM, Zowdow.CAROUSEL_STREAM, Zowdow.CAROUSEL_STACK or Zowdow.CAROUSEL_ROTARY
 
 To change icon use
 ```java
@@ -319,11 +340,12 @@ Zowdow.Params has the following methods:
 ```java
     void setOnSuggestionClickListener(OnSuggestionClickListener onSuggestionClickListener)
     void setOnCardClickListener(OnCardClickListener onCardClickListener)
+    void setOnVideoCardClickListener(OnVideoCardClickListener onVideoCardClickListener)
     void setMaxCardCount(int maxCardCount)
     void setHighlightUserFragment(boolean highlightUserFragment)
     void setHighlightColor(int color)
     void setNormalColor(int color)
-    void setCarouselType(@CarouselType int carouselType) // carouselType can be Zowdow.CAROUSEL_LINEAR_A or Zowdow.CAROUSEL_LINEAR_B
+    void setCarouselType(@CarouselType int carouselType) // carouselType can be, Zowdow.CAROUSEL_STACK, Zowdow.CAROUSEL_ROTARY, Zowdow.CAROUSEL_MID_STREAM or Zowdow.CAROUSEL_STREAM
     void setIconId(@DrawableRes int drawableId) // if drawableId is 0 ImageView won't be displayed, it's width will be 0, but left and right margins will have an impact on the view
     void setIconImageViewWidth(int widthInPx) // change width of icon ImageView
     void setMargins(int leftMarginInPx, int rightMarginInPx) // change margins of icon ImageView
@@ -336,6 +358,157 @@ Zowdow.Params has the following methods:
 
 Behaviour of these methods is the same as of the ZowdowAdapter's methods
 
+# Discovery Widget
+
+We also provide a Discovery Widget which comes as a standalone configurable UI component (Fragment) 
+and represents the suggestion row (or switchable rows) with the cards related to one of several trending
+topics like: Food Nearby, Top Sites, Wikipedia cards, Trending Android-Apps, Music, Latest News &
+Places, etc.
+
+`ZowdowDiscoveryFragment` comes out-of-the-box, so you have no need to perform extra steps e.g. to
+retrieve data from Zowdow or provide additional business-logic for your Discovery Widget as it is
+already completely ready for the instantiate.
+
+We highly recommend to use one of two ways to instantiate our Discovery Widget.
+
+The first one is to use `ZowdowDiscoveryFragment`'s static `newInstance` method and
+pass `DiscoveryWidgetConfiguration` instance (which may be complemented with extra properties described 
+below) as a parameter:
+
+```java
+    ZowdowDiscoveryFragment.newInstance(new DiscoveryWidgetConfiguration());
+```
+
+Basically the line above is equivalent to the second way of instantiation which looks like this:
+
+```java
+    ZowdowDiscoveryFragment.newInstance();
+```
+
+or like this:
+
+```java
+    new ZowdowDiscoveryFragment();
+```
+
+Each of these ways represent passing the default configuration parameters for this widget.
+Consider using the instantiation without extra arguments if you **don't** wish to customize
+your widget with a specific list of categories (instead of the predefined one by our SDK) 
+or cards amount inside the each row.
+
+In default configuration presented above this widget will look like a simple list of several 
+suggestion rows, just like standard Zowdow suggestions for a given keyword. Each of them contain at 
+most 10 cards of the most trending common topic for the current time of a day, the title of which 
+is displayed above the cards carousel.
+
+You can attach this fragment to the desired context and handle its state as you usually perform 
+this with your own fragments:
+
+```java
+    getSupportFragmentManager().beginTransaction()
+                    .add(R.id.container, ZowdowDiscoveryFragment.newInstance(), "example_tag")
+                    .commit();
+```
+
+or the another way you like.
+
+Before attaching ZowdowDiscoveryFragment it is essential to initialize Zowdow if it hasn't been
+performed in the current context as early as possible:
+
+```java
+    Zowdow.initialize(context);
+```
+
+Also, don't forget to make your activity or fragment which contains the Widget implement 
+`OnCardClickListener` interface in order to handle the widget's cards click events!
+
+### ZowdowDiscoveryWidget customization
+
+As it was already mentioned, you have an ability to initialize `DiscoveryWidgetConfiguration` 
+object with additional properties and pass it as a parameter to `ZowdowDiscoveryFragment.newInstance()`
+method, e.g. like this:
+
+```java
+    DiscoveryWidgetConfiguration configuration = new DiscoveryWidgetConfiguration()
+                    .cardLimit(8);
+    ZowdowDiscoveryFragment fragment = ZowdowDiscoveryFragment.newInstance(configuration);
+```
+
+or like this by additionally using `categories` method which accepts variable count of available 
+Discovery categories (see `DiscoveryNavigationType` enum) if you also prefer to customize the 
+categories displayed inside the Widget:
+
+```java
+    DiscoveryWidgetConfiguration configuration = new DiscoveryWidgetConfiguration()
+                    .cardLimit(10)
+                    .categories(DiscoveryCategory.APPS, DiscoveryCategory.MUSIC, DiscoveryCategory.NEWS, DiscoveryCategory.PLACES, DiscoveryCategory.FOOD);
+    ZowdowDiscoveryFragment fragment = ZowdowDiscoveryFragment.newInstance(configuration);
+```
+
+By not specifying desired categories, the most trending ones for current time of a day will 
+be displayed inside the widget by default.
+
+You cannot define the priority order of the categories, but you can be sure that each of the ones
+you requested will be shown in your Discovery Widget if the data for them is available.
+
+### Multiple Discovery Widgets inside ViewPager
+
+If you would like to have multiple Discovery Widgets on a single screen, consider using the native
+ViewPager tied with the adapter-class which extends `FragmentStatePagerAdapter` of the Android SDK, 
+initialize `ZowdowDiscoveryFragment` instances inside your adapter and make sure you pass the 
+same `DiscoveryWidgetConfiguration` instances even after device rotation (in order to keep you 
+Discovery Widget's state and data).
+
+`DiscoveryWidgetConfiguration` is `Parcelable`, so you can easily handle its persistence in any way
+of implementation you find convenient.
+
+Here's the example of correct multiple Discovery Widgets setup:
+
+```java
+    public class DiscoveryPagerAdapter extends FragmentStatePagerAdapter {
+        private static final int SIMPLE_WIDGET = 0;
+        private static final int CUSTOMIZED_WIDGET = 1;
+        private static final int WIDGETS_COUNT = 2;
+    
+        public DiscoveryPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+    
+        @Override
+        public Fragment getItem(int position) {
+            switch (position) {
+                case SIMPLE_WIDGET:
+                    return ZowdowDiscoveryFragment.newInstance();
+                case CUSTOMIZED_WIDGET:
+                    return ZowdowDiscoveryFragment
+                            .newInstance(new DiscoveryWidgetConfiguration()
+                                    .cardLimit(8)
+                                    .categories(DiscoveryCategory.MUSIC, DiscoveryCategory.APPS, 
+                                                DiscoveryCategory.FOOD, DiscoveryCategory.VIDEOS)
+                            );
+            }
+            return new Fragment();
+        }
+    
+        @Override
+        public int getCount() {
+            return WIDGETS_COUNT;
+        }
+    }
+```
+
+Inside the context (activity / fragment) where this ViewPager with Widgets is used:
+
+```java
+    private void attachDiscoveryWidget() {
+        DiscoveryPagerAdapter pagerAdapter = new DiscoveryPagerAdapter(getSupportFragmentManager());
+        mDiscoveryPager.setOffscreenPageLimit(2);
+        mDiscoveryPager.setAdapter(mPagerAdapter);
+    }
+```
+
+It is not necessary but recommended that you have the value of offscreen page limit equal
+to ZowdowDiscoveryFragments you would like to have displayed on a screen.
 
 ### Tracking APIs
 

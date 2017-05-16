@@ -17,4 +17,20 @@
         android:layout_below="@+id/btnBasicIntegration"
         android:onClick="clickAdvancedIntegration"
         android:text="@string/btn_advanced_integration" />
+
+    <Button
+        android:id="@+id/btnDiscoveryWidgetIntegration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnAdvancedIntegration"
+        android:onClick="clickDiscoveryWidgetIntegration"
+        android:text="@string/btn_discovery_widget"/>
+
+    <Button
+        android:id="@+id/btnDiscoveryWidgetPagerIntegration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnDiscoveryWidgetIntegration"
+        android:onClick="clickDiscoveryWidgetsPagerIntegration"
+        android:text="@string/btn_discovery_widget_pager"/>
 </RelativeLayout>
