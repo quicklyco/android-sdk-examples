@@ -362,8 +362,7 @@ Behaviour of these methods is the same as of the ZowdowAdapter's methods
 
 We also provide a Discovery Widget which comes as a standalone configurable UI component (Fragment) 
 and represents the suggestion row (or switchable rows) with the cards related to one of several trending
-topics like: Food Nearby, Top Sites, Wikipedia cards, Trending Android-Apps, Music, Latest News &
-Places, etc.
+topics like: Food Nearby, Top Sites, Trending Android-Apps, Music, Videos & Products.
 
 `ZowdowDiscoveryFragment` comes out-of-the-box, so you have no need to perform extra steps e.g. to
 retrieve data from Zowdow or provide additional business-logic for your Discovery Widget as it is
