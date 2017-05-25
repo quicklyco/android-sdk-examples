@@ -29,7 +29,7 @@ repositories {
     }
 }
 
-def zowdowSdkVersion = "2.1.16"
+def zowdowSdkVersion = "2.1.19"
 def supportLibVersion = "25.3.1"
 def playServicesVersion = "10.0.1"
 
