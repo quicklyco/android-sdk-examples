@@ -58,7 +58,7 @@ For example: User types in _**st**_ and the SDK sends _**'s'**_ and then _**'st'
     def playServicesModule = "location"
 
     dependencies {
-        compile 'co.zowdow:zowdow-sdk:2.1.19@aar'
+        compile 'co.zowdow:zowdow-sdk:2.1.22@aar'
         compile 'com.android.support:appcompat-v7:+'
         compile 'com.android.support:recyclerview-v7:+'
         compile 'com.android.support:cardview-v7:+'
