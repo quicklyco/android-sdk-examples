@@ -4,4 +4,5 @@
     <string name="btn_advanced_integration">Advanced Integration Demo</string>
     <string name="btn_discovery_widget">Discovery Widget Demo</string>
     <string name="btn_discovery_widget_pager">Discovery Widgets ViewPager Demo</string>
+    <string name="btn_sdk_from_scratch_demo">SDK live implementation preview</string>
 </resources>

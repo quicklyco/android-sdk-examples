@@ -33,4 +33,12 @@
         android:layout_below="@id/btnDiscoveryWidgetIntegration"
         android:onClick="clickDiscoveryWidgetsPagerIntegration"
         android:text="@string/btn_discovery_widget_pager"/>
+
+    <Button
+        android:id="@+id/btnLiveSdkImplementationPreview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnDiscoveryWidgetPagerIntegration"
+        android:onClick="clickSdkFromScratchPreview"
+        android:text="@string/btn_sdk_from_scratch_demo"/>
 </RelativeLayout>

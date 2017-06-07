@@ -11,6 +11,7 @@ import android.view.View;
 
 import com.zowdow.android.example.advanced.AdvancedIntegrationDemoActivity;
 import com.zowdow.android.example.basic.BasicIntegrationDemoActivity;
+import com.zowdow.android.example.external.ExternalSuggestionsDemoActivity;
 import com.zowdow.android.example.widget.DiscoveryWidgetActivity;
 import com.zowdow.android.example.widget.DiscoveryWidgetPagerActivity;
 
@@ -44,13 +45,16 @@ public class StartActivity extends AppCompatActivity {
         startAdvancedDemoActivity();
     }
 
-
     public void clickDiscoveryWidgetIntegration(View view) {
         startDiscoveryWidgetActivity();
     }
 
     public void clickDiscoveryWidgetsPagerIntegration(View view) {
         startDiscoveryWidgetsActivity();
+    }
+
+    public void clickSdkFromScratchPreview(View view) {
+        startExternalSuggestionsActivity();
     }
 
     private void startZowDowDemoActivity() {
@@ -71,5 +75,9 @@ public class StartActivity extends AppCompatActivity {
     private void startDiscoveryWidgetsActivity() {
         Intent i = new Intent(this, DiscoveryWidgetPagerActivity.class);
         startActivity(i);
+    }
+
+    private void startExternalSuggestionsActivity() {
+        startActivity(new Intent(this, ExternalSuggestionsDemoActivity.class));
     }
 }
