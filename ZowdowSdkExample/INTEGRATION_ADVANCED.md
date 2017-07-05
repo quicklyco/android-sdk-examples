@@ -202,26 +202,6 @@ One of the common tasks when integrating Zowdow with an existing auto-suggest se
 ```
 We use a simple construction (not necessarily most efficient, but sufficient for a small number of suggestions we deal with) - so there are 2 loops - outer and inner. We walk Zowdow suggestions in the outer loop and compare the current Zowdow suggestion against all of the Bing's suggestions (Bing is used as an example of other service) - if suggestions match - we simply remove Bing's duplicate.  After that we sort and display suggestions list.
 
-### Tracking APIs
-
-The following APIs should be used to track events that happen outside of the ZowdowSDK:
-
-```java
-    // Call when a user hits "Search" button on the keyboard,
-    // initiating a search, pass the search phrase in the search parameter
-    // and search engine (google|bing|other) as origin
-    Zowdow.trackSearch(Context context, String origin, String query);
-
-    // Call whenever you receive and ready to render suggestions other than Zowdow's,
-    // passing an arbitrary origin param. f.e. if you use Bing autosuggestion service - pass "bing".
-    // fragment stands for query string
-    Zowdow.trackSuggestionsReceived(Context context, String origin, String fragment, List<? SuggestionData> suggestions);
-
-    // Call when a user chose some non-Zowdow suggestion from the list provided by different sources,
-    // pass the suggestion origin as origin param (f.e. "bing") and actual suggestion text as suggestion param
-    Zowdow.trackDidChooseSuggestion(Context context, String origin, String suggestion);
-```
-
 `SuggestionsData` is just a:
 
 ```java

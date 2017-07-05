@@ -11,8 +11,8 @@ import android.view.View;
 
 import com.zowdow.android.example.advanced.AdvancedIntegrationDemoActivity;
 import com.zowdow.android.example.basic.BasicIntegrationDemoActivity;
-import com.zowdow.android.example.widget.DiscoveryWidgetActivity;
-import com.zowdow.android.example.widget.DiscoveryWidgetPagerActivity;
+import com.zowdow.android.example.trending.DiscoveryWidgetActivity;
+import com.zowdow.android.example.trending.DiscoveryWidgetPagerActivity;
 
 public class StartActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_PERMISSIONS = 1;

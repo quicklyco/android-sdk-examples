@@ -139,7 +139,6 @@ public class AdvancedIntegrationDemoActivity extends AppCompatActivity implement
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     String suggestion = mAdapter.getItem(position).getSuggestion();
-                    Zowdow.trackDidChooseSuggestion(AdvancedIntegrationDemoActivity.this, "bing", suggestion);
                     onSuggestionClick(suggestion);
                 }
             });
@@ -173,7 +172,6 @@ public class AdvancedIntegrationDemoActivity extends AppCompatActivity implement
 
     @Override
     public void onSuggestionClick(String suggestion) {
-        Zowdow.trackSearch(AdvancedIntegrationDemoActivity.this, "google", suggestion);
         Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com.ua/search?q=" + suggestion));
         startActivity(i);
     }
@@ -191,9 +189,6 @@ public class AdvancedIntegrationDemoActivity extends AppCompatActivity implement
                 mBingResponse = new ArrayList<>();
                 for (String suggestion : response.body().getSuggestions()) {
                     mBingResponse.add(new BingSuggestion(suggestion));
-                }
-                if (mBingResponse.size() > 0) {
-                    Zowdow.trackSuggestionsReceived(AdvancedIntegrationDemoActivity.this, BING, queryFragment, mBingResponse);
                 }
                 Collections.sort(mBingResponse, new Comparator<BingSuggestion>() {
                     @Override

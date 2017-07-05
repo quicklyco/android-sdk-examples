@@ -86,7 +86,6 @@ public class BasicIntegrationDemoActivity extends AppCompatActivity {
         adapter.setOnSuggestionClickListener(new OnSuggestionClickListener() {
             @Override
             public void onSuggestionClick(String suggestion) {
-                Zowdow.trackSearch(BasicIntegrationDemoActivity.this, "google", suggestion);
                 Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com.ua/search?q=" + suggestion));
                 startActivity(i);
             }
