@@ -14,10 +14,9 @@
     def playServicesModule = "location"
 
     dependencies {
-        compile 'co.zowdow:zowdow-sdk:2.1.151@aar'
+        compile 'co.zowdow:zowdow-sdk:2.2.151@aar'
         compile 'com.android.support:appcompat-v7:+'
         compile 'com.android.support:recyclerview-v7:+'
-        compile 'com.android.support:cardview-v7:+'
 
         /* If you already use at least one of Google Play Services modules, it would be enough to include any
          different from 'base' module for correct Zowdow SDK integration.
@@ -26,28 +25,8 @@
          */
 
         compile 'com.google.android.gms:play-services-base:10.0.+'
-
-        compile 'com.squareup.retrofit:retrofit:2.0.0-beta2'
-        compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'
-        compile 'com.squareup.okhttp:okhttp:2.3.0'
-        // or
-        compile 'com.squareup.okhttp3:okhttp:3.6.0'
-        compile 'com.squareup.retrofit2:retrofit:2.1.0'
-        compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     }
     ```
-
-    We support both retrofit2-beta and retrofit2-stable. Add the following packaging options (notice that `packagingOptions` block is nested within `android` block)
-
-    ```gradle
-    android {
-        packagingOptions {
-            exclude 'META-INF/LICENSE.txt'
-            exclude 'META-INF/NOTICE.txt'
-        }
-    }
-    ```
-
 
 2.  Add the following permissions to AndroidManifest.xml:
 
