@@ -14,7 +14,7 @@
     def playServicesModule = "location"
 
     dependencies {
-        compile 'co.zowdow:zowdow-sdk:2.2.151@aar'
+        compile 'co.zowdow:zowdow-sdk:2.2.153@aar'
         compile 'com.android.support:appcompat-v7:+'
         compile 'com.android.support:recyclerview-v7:+'
 
