@@ -24,7 +24,7 @@ custom Android keyboards.
     }
 
     dependencies {
-        compile "co.zowdow:zowdow-sdk:2.0.134@aar"
+        compile "co.zowdow:zowdow-sdk:2.1.154@aar"
 
         compile 'com.android.support:appcompat-v7:25.3.0'
         compile 'com.android.support:recyclerview-v7:25.3.0'
