@@ -136,8 +136,13 @@
     ```
     
     This method returns ZowdowAdapter, which you can set as an adapter for your ListView. 
-    
-    You can call it and initialize `ZowdowAdapter` the following way:
+
+    You can call it and initialize `ZowdowAdapter` the following way (for basic implementation, if only Zowdow suggestions are required):
+
+   ```java
+    ZowdowAdapter adapter = mZowdow.createAdapter(null);
+    listView.setAdapter(adapter);
+    ```
     
     If you want to display your own items after Zowdow's, use `adapter` argument for this. For example:
     ```java
